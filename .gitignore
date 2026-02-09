@@ -1,17 +1,8 @@
 
-# Java
-*.class
-*.jar
-!paper-*.jar
-
 # Node
 node_modules/
 npm-debug.log
 yarn-error.log
-
-# Sistema
-.DS_Store
-Thumbs.db
 
 # Documentação e scripts auxiliares
 md/
