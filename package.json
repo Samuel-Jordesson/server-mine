@@ -1,0 +1,26 @@
+{
+  "name": "minecraft-server",
+  "version": "1.0.0",
+  "description": "Servidor Minecraft Java + Bedrock com Paper e GeyserMC",
+  "main": "index.js",
+  "scripts": {
+    "dev": "node start-server.js",
+    "start": "node start-server.js",
+    "web": "node web-server.js",
+    "setup": "node setup-geyser.js",
+    "setup-simple": "node setup-geyser-simple.js",
+    "enable-rcon": "node enable-rcon.js"
+  },
+  "keywords": [
+    "minecraft",
+    "server",
+    "paper",
+    "geyser"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2",
+    "socket.io": "^4.6.1"
+  }
+}

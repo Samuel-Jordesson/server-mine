@@ -1,0 +1,59 @@
+[17:34:00] [ServerMain/INFO]: [bootstrap] Running Java 21 (OpenJDK 64-Bit Server VM 21.0.8+9-LTS; Eclipse Adoptium Temurin-21.0.8+9) on Windows 11 10.0 (amd64)
+[17:34:00] [ServerMain/INFO]: [bootstrap] Loading Paper 1.21.11-106-main@0d768aa (2026-02-05T12:16:32Z) for Minecraft 1.21.11
+[17:34:02] [ServerMain/INFO]: [PluginInitializerManager] Initializing plugins...
+[17:34:02] [ServerMain/INFO]: [PluginInitializerManager] Initialized 1 plugin
+[17:34:02] [ServerMain/INFO]: [PluginInitializerManager] Bukkit plugins (1):
+ - Geyser-Spigot (2.9.2-SNAPSHOT)
+[17:34:08] [ServerMain/INFO]: Environment: Environment[sessionHost=https://sessionserver.mojang.com, servicesHost=https://api.minecraftservices.com, profilesHost=https://api.mojang.com, name=PROD]
+[17:34:09] [ServerMain/INFO]: Loaded 1470 recipes
+[17:34:09] [ServerMain/INFO]: Loaded 1584 advancements
+[17:34:09] [ServerMain/INFO]: [ca.spottedleaf.dataconverter.minecraft.datatypes.MCTypeRegistry] Initialising converters for DataConverter...
+[17:34:10] [ServerMain/INFO]: [ca.spottedleaf.dataconverter.minecraft.datatypes.MCTypeRegistry] Finished initialising converters for DataConverter in 357,7ms
+[17:34:10] [Server thread/INFO]: Starting minecraft server version 1.21.11
+[17:34:10] [Server thread/INFO]: Loading properties
+[17:34:10] [Server thread/INFO]: This server is running Paper version 1.21.11-106-main@0d768aa (2026-02-05T12:16:32Z) (Implementing API version 1.21.11-R0.1-SNAPSHOT)
+[17:34:10] [Server thread/INFO]: [spark] This server bundles the spark profiler. For more information please visit https://docs.papermc.io/paper/profiling
+[17:34:10] [Server thread/INFO]: Server Ping Player Sample Count: 12
+[17:34:10] [Server thread/INFO]: Using 4 threads for Netty based IO
+[17:34:11] [Server thread/INFO]: [MoonriseCommon] Paper is using 3 worker threads, 1 I/O threads
+[17:34:11] [Server thread/INFO]: Default game type: SURVIVAL
+[17:34:11] [Server thread/INFO]: Generating keypair
+[17:34:11] [Server thread/INFO]: Starting Minecraft server on *:25565
+[17:34:11] [Server thread/INFO]: Paper: Using Java compression from Velocity.
+[17:34:11] [Server thread/INFO]: Paper: Using Java cipher from Velocity.
+[17:34:11] [Server thread/INFO]: [Geyser-Spigot] Loading server plugin Geyser-Spigot v2.9.2-SNAPSHOT
+[17:34:12] [Server thread/INFO]: [Geyser-Spigot] Carregando extensões...
+[17:34:12] [Server thread/INFO]: [Geyser-Spigot] 0 extensão(ões) carregada
+[17:34:12] [Server thread/INFO]: Server permissions file permissions.yml is empty, ignoring it
+[17:34:12] [Server thread/WARN]: **** SERVER IS RUNNING IN OFFLINE/INSECURE MODE!
+[17:34:12] [Server thread/WARN]: The server will make no attempt to authenticate usernames. Beware.
+[17:34:12] [Server thread/WARN]: While this makes the game possible to play without internet access, it also opens up the ability for hackers to connect with any username they choose.
+[17:34:12] [Server thread/WARN]: To change this, set "online-mode" to "true" in the server.properties file.
+[17:34:12] [Server thread/INFO]: Preparing level "world"
+[17:34:13] [Server thread/INFO]: Loading 0 persistent chunks for world 'minecraft:overworld'...
+[17:34:13] [Server thread/INFO]: Prepared spawn area in 1 ms
+[17:34:13] [Server thread/INFO]: Loading 0 persistent chunks for world 'minecraft:the_nether'...
+[17:34:13] [Server thread/INFO]: Prepared spawn area in 1 ms
+[17:34:13] [Server thread/INFO]: Loading 0 persistent chunks for world 'minecraft:the_end'...
+[17:34:13] [Server thread/INFO]: Prepared spawn area in 0 ms
+[17:34:13] [Server thread/INFO]: Done preparing level "world" (0.558s)
+[17:34:13] [Server thread/INFO]: [Geyser-Spigot] Enabling Geyser-Spigot v2.9.2-SNAPSHOT
+[17:34:14] [Server thread/INFO]: [spark] Starting background profiler...
+[17:34:14] [Server thread/INFO]: [spark] The async-profiler engine is not supported for your os/arch (windows11/amd64), so the built-in Java engine will be used instead.
+[17:34:15] [Server thread/INFO]: [Geyser-Spigot] ******************************************
+[17:34:15] [Server thread/INFO]: [Geyser-Spigot] 
+[17:34:15] [Server thread/INFO]: [Geyser-Spigot] Carregando Geyser versão 2.9.2-b1056 (git-master-811db30)
+[17:34:15] [Server thread/INFO]: [Geyser-Spigot] 
+[17:34:15] [Server thread/INFO]: [Geyser-Spigot] ******************************************
+[17:34:18] [Server thread/WARN]: [Geyser-Spigot] XBOX AUTHENTICATION IS DISABLED ON THIS GEYSER INSTANCE!
+[17:34:18] [Server thread/WARN]: [Geyser-Spigot] While this allows using Bedrock edition proxies, it also opens up the ability for hackers to connect with any username they choose.
+[17:34:18] [Server thread/WARN]: [Geyser-Spigot] To change this, set "disable-xbox-auth" to "false" in Geyser's config file.
+[17:34:18] [Server thread/INFO]: [Geyser-Spigot] Geyser iniciado na porta UDP 19132
+[17:34:18] [Server thread/INFO]: [Geyser-Spigot] Concluído (3,184 s)! Execute /geyser help para obter ajuda!
+[17:34:18] [Server thread/INFO]: Starting remote control listener
+[17:34:18] [Server thread/INFO]: Thread RCON Listener started
+[17:34:18] [Server thread/INFO]: RCON running on 0.0.0.0:25575
+[17:34:18] [Server thread/INFO]: Running delayed init tasks
+[17:34:18] [Server thread/INFO]: Done (18.877s)! For help, type "help"
+[17:34:18] [Paper Async Task Handler Thread - 1/INFO]: *** Currently you are 5 build(s) behind ***
+[17:34:18] [Paper Async Task Handler Thread - 1/INFO]: *** It is highly recommended to download the latest build from https://papermc.io/downloads/paper ***
