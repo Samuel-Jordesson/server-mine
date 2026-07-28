@@ -4,7 +4,7 @@
   "description": "Servidor Minecraft Java + Bedrock com Paper e GeyserMC",
   "main": "index.js",
   "scripts": {
-    "dev": "node start-server.js",
+    "dev": "concurrently -n SERVER,WEB -c green,cyan \"node start-server.js\" \"node web-server.js\"",
     "start": "node start-server.js",
     "web": "node web-server.js",
     "setup": "bash setup.sh",
@@ -24,5 +24,8 @@
     "express": "^4.18.2",
     "multer": "^2.2.0",
     "socket.io": "^4.6.1"
+  },
+  "devDependencies": {
+    "concurrently": "^10.0.4"
   }
 }

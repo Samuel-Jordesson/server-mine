@@ -77,7 +77,9 @@ Para encerrar o servidor: volte com `tmux attach`, use `Ctrl+C` dentro do consol
 
 ## Painel Web
 
-Em outro terminal (ou outra aba do `tmux`), inicie o painel web:
+O `npm run dev` já sobe o servidor Minecraft **e** o painel web juntos (lado a lado no mesmo terminal, com prefixo `SERVER`/`WEB` colorido em cada linha de log).
+
+Se quiser rodar só o painel separadamente por algum motivo, ainda dá:
 
 ```bash
 npm run web
