@@ -6,12 +6,19 @@ echo " Setup do Minecraft Server (Java + Bedrock)"
 echo "===================================================="
 echo ""
 
-echo "[1/4] Verificando/instalando Java 21..."
-if ! command -v java >/dev/null 2>&1; then
+echo "[1/4] Verificando/instalando Java 25 (exigido pelo Paper 26.x)..."
+JAVA_MAJOR=0
+if command -v java >/dev/null 2>&1; then
+    JAVA_MAJOR=$(java -version 2>&1 | head -n 1 | grep -oP '"\K[0-9]+' || echo 0)
+fi
+
+if [ "$JAVA_MAJOR" -lt 25 ]; then
+    echo "Java atual (versão $JAVA_MAJOR) é antigo demais para o Paper 26.x. Instalando Java 25..."
     sudo apt update
-    sudo apt install -y openjdk-21-jre-headless
+    sudo apt install -y openjdk-25-jre-headless
+    sudo update-alternatives --set java "$(update-alternatives --list java | grep 'java-25' | head -n 1)" 2>/dev/null || true
 else
-    echo "Java já está instalado: $(java -version 2>&1 | head -n 1)"
+    echo "Java já está na versão correta: $(java -version 2>&1 | head -n 1)"
 fi
 echo ""
 
