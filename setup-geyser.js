@@ -167,26 +167,27 @@ async function getLatestGeyserUrl() {
     try {
         console.log('🔍 Buscando versão mais recente do GeyserMC...');
         
-        // Buscar versões disponíveis
-        const versionsUrl = `${apiBase}/versions`;
-        const versions = await makeRequest(versionsUrl);
-        
+        // Buscar versões disponíveis (a lista vem dentro do endpoint base do projeto)
+        const projectInfo = await makeRequest(apiBase);
+        const versions = projectInfo && projectInfo.versions;
+
         if (!versions || !Array.isArray(versions) || versions.length === 0) {
             throw new Error('Não foi possível obter versões do GeyserMC');
         }
-        
-        // Pegar a versão mais recente (primeira da lista)
-        const latestVersion = versions[0];
+
+        // Pegar a versão mais recente (última da lista)
+        const latestVersion = versions[versions.length - 1];
         console.log(`✅ Versão encontrada: ${latestVersion}`);
         
         // Buscar builds da versão
         const buildsUrl = `${apiBase}/versions/${latestVersion}/builds`;
-        const builds = await makeRequest(buildsUrl);
-        
+        const buildsInfo = await makeRequest(buildsUrl);
+        const builds = buildsInfo && buildsInfo.builds;
+
         if (!builds || !Array.isArray(builds) || builds.length === 0) {
             throw new Error('Não foi possível obter builds do GeyserMC');
         }
-        
+
         // Pegar o build mais recente (último da lista)
         const latestBuild = builds[builds.length - 1];
         const buildNumber = latestBuild.build;
@@ -215,7 +216,7 @@ async function getLatestGeyserUrl() {
         if (downloadUrl.includes('github.com')) {
             console.log('💡 Tentando URL alternativa da API oficial...');
             // URL direta da API v2 com versão específica
-            downloadUrl = 'https://download.geysermc.org/v2/projects/geyser/versions/2.3.1/builds/243/downloads/spigot';
+            downloadUrl = 'https://download.geysermc.org/v2/projects/geyser/versions/2.11.0/builds/1185/downloads/spigot';
         }
         
         console.log(`\n📥 Baixando GeyserMC...`);

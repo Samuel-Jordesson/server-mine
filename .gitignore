@@ -6,3 +6,7 @@ yarn-error.log
 
 # Documentação e scripts auxiliares
 md/
+
+# Uploads temporários do painel web
+server/.tmp-uploads/
+server/.tmp-extract/

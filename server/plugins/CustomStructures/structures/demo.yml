@@ -1,0 +1,112 @@
+Schematic: 'demo.schem'
+
+Probability:
+  Numerator: 1
+  Denominator: 500
+
+StructureLocation:
+  Worlds:
+    - world
+  SpawnY: top
+  SpawnYHeightMap: 'WORLD_SURFACE'
+  CalculateSpawnFirst: true
+  Biome: []
+  DistanceFromOthers: 200
+  # Set a custom spawn distance for the structures.
+  SpawnDistance:
+    x: 10
+    z: 10
+
+StructureProperties:
+  PlaceAir: true
+  RandomRotation: false
+  IgnorePlants: true
+  SpawnInWater: true
+  SpawnInLavaLakes: true
+  SpawnInVoid: false
+  IgnoreWater: false
+
+SubSchematics:
+  Schematics:
+    demo2:
+      File: 'demo2.schem'
+      PlaceAir: false
+      UseRotation: false
+
+AdvancedSubSchematics:
+  CategoryOne:
+    demo2:
+      Weight: 20
+      File: 'demo2.schem'
+      PlaceAir: false
+      UseRotation: false
+    demo3:
+      Weight: 40
+      File: 'demo3.schem'
+      PlaceAir: false
+      UseRotation: false
+      VerticalRepositioning:
+        Range: '[-10;20]'
+        SpawnY: 'top'
+        SpawnYHeightMap: 'WORLD_SURFACE'
+        # CURRENT, PREVENT_SPAWN, 'Stylized SpawnY Int'
+        NoPointSolution: ''
+
+StructureLimitations:
+  WorldHeightRestriction: 10
+  WhitelistSpawnBlocks:
+    - GRASS_BLOCK
+    - Dirt
+    - Stone
+    - air
+  BlacklistSpawnBlocks: []
+  # This could cause issue with lag depending on how large the search area is.
+  BlockLevelLimit:
+    # Can be flat or flat_error.
+    Mode: flat
+    CornerOne:
+      x: -5
+      z: -5
+    CornerTwo:
+      x: 5
+      z: 5
+
+  # This could cause issues with lag depending on how many blocks you have
+  # to replace.
+  ReplaceBlocks:
+    'STONE': 'AIR'
+
+  # Delay the replacement of blocks by x seconds.
+  ReplaceBlockDelay: 0
+
+# Mask the blocks that are placed from the schematic.
+SourceMask:
+  Enabled: false
+  UnionType: 'AND'
+  BlockTypeMask:
+    - WHITE_WOOL
+  NegatedBlockMask:
+    - WHITE_WOOL
+
+# Mask the blocks that the pasted schematic replaces.
+TargetMask:
+  Enabled: false
+  UnionType: 'AND'
+  BlockTypeMask:
+    - WHITE_WOOL
+  NegatedBlockMask:
+    - WHITE_WOOL
+
+BottomSpaceFill:
+  'SNOWY_TAIGA,SNOWY_PLAINS': SNOW_BLOCK
+  'DESERT': SANDSTONE
+  'default': DIRT
+
+
+# List of lootTables for this Schematic, name, and weight.
+# Weight determines how often it will be chosen out of all the entries in the list.
+LootTables:
+  CHEST:
+    lootTable: 5
+  BARREL:
+    lootTable: 5

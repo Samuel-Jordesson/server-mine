@@ -1,59 +1,147 @@
-[17:34:00] [ServerMain/INFO]: [bootstrap] Running Java 21 (OpenJDK 64-Bit Server VM 21.0.8+9-LTS; Eclipse Adoptium Temurin-21.0.8+9) on Windows 11 10.0 (amd64)
-[17:34:00] [ServerMain/INFO]: [bootstrap] Loading Paper 1.21.11-106-main@0d768aa (2026-02-05T12:16:32Z) for Minecraft 1.21.11
-[17:34:02] [ServerMain/INFO]: [PluginInitializerManager] Initializing plugins...
-[17:34:02] [ServerMain/INFO]: [PluginInitializerManager] Initialized 1 plugin
-[17:34:02] [ServerMain/INFO]: [PluginInitializerManager] Bukkit plugins (1):
- - Geyser-Spigot (2.9.2-SNAPSHOT)
-[17:34:08] [ServerMain/INFO]: Environment: Environment[sessionHost=https://sessionserver.mojang.com, servicesHost=https://api.minecraftservices.com, profilesHost=https://api.mojang.com, name=PROD]
-[17:34:09] [ServerMain/INFO]: Loaded 1470 recipes
-[17:34:09] [ServerMain/INFO]: Loaded 1584 advancements
-[17:34:09] [ServerMain/INFO]: [ca.spottedleaf.dataconverter.minecraft.datatypes.MCTypeRegistry] Initialising converters for DataConverter...
-[17:34:10] [ServerMain/INFO]: [ca.spottedleaf.dataconverter.minecraft.datatypes.MCTypeRegistry] Finished initialising converters for DataConverter in 357,7ms
-[17:34:10] [Server thread/INFO]: Starting minecraft server version 1.21.11
-[17:34:10] [Server thread/INFO]: Loading properties
-[17:34:10] [Server thread/INFO]: This server is running Paper version 1.21.11-106-main@0d768aa (2026-02-05T12:16:32Z) (Implementing API version 1.21.11-R0.1-SNAPSHOT)
-[17:34:10] [Server thread/INFO]: [spark] This server bundles the spark profiler. For more information please visit https://docs.papermc.io/paper/profiling
-[17:34:10] [Server thread/INFO]: Server Ping Player Sample Count: 12
-[17:34:10] [Server thread/INFO]: Using 4 threads for Netty based IO
-[17:34:11] [Server thread/INFO]: [MoonriseCommon] Paper is using 3 worker threads, 1 I/O threads
-[17:34:11] [Server thread/INFO]: Default game type: SURVIVAL
-[17:34:11] [Server thread/INFO]: Generating keypair
-[17:34:11] [Server thread/INFO]: Starting Minecraft server on *:25565
-[17:34:11] [Server thread/INFO]: Paper: Using Java compression from Velocity.
-[17:34:11] [Server thread/INFO]: Paper: Using Java cipher from Velocity.
-[17:34:11] [Server thread/INFO]: [Geyser-Spigot] Loading server plugin Geyser-Spigot v2.9.2-SNAPSHOT
-[17:34:12] [Server thread/INFO]: [Geyser-Spigot] Carregando extensões...
-[17:34:12] [Server thread/INFO]: [Geyser-Spigot] 0 extensão(ões) carregada
-[17:34:12] [Server thread/INFO]: Server permissions file permissions.yml is empty, ignoring it
-[17:34:12] [Server thread/WARN]: **** SERVER IS RUNNING IN OFFLINE/INSECURE MODE!
-[17:34:12] [Server thread/WARN]: The server will make no attempt to authenticate usernames. Beware.
-[17:34:12] [Server thread/WARN]: While this makes the game possible to play without internet access, it also opens up the ability for hackers to connect with any username they choose.
-[17:34:12] [Server thread/WARN]: To change this, set "online-mode" to "true" in the server.properties file.
-[17:34:12] [Server thread/INFO]: Preparing level "world"
-[17:34:13] [Server thread/INFO]: Loading 0 persistent chunks for world 'minecraft:overworld'...
-[17:34:13] [Server thread/INFO]: Prepared spawn area in 1 ms
-[17:34:13] [Server thread/INFO]: Loading 0 persistent chunks for world 'minecraft:the_nether'...
-[17:34:13] [Server thread/INFO]: Prepared spawn area in 1 ms
-[17:34:13] [Server thread/INFO]: Loading 0 persistent chunks for world 'minecraft:the_end'...
-[17:34:13] [Server thread/INFO]: Prepared spawn area in 0 ms
-[17:34:13] [Server thread/INFO]: Done preparing level "world" (0.558s)
-[17:34:13] [Server thread/INFO]: [Geyser-Spigot] Enabling Geyser-Spigot v2.9.2-SNAPSHOT
-[17:34:14] [Server thread/INFO]: [spark] Starting background profiler...
-[17:34:14] [Server thread/INFO]: [spark] The async-profiler engine is not supported for your os/arch (windows11/amd64), so the built-in Java engine will be used instead.
-[17:34:15] [Server thread/INFO]: [Geyser-Spigot] ******************************************
-[17:34:15] [Server thread/INFO]: [Geyser-Spigot] 
-[17:34:15] [Server thread/INFO]: [Geyser-Spigot] Carregando Geyser versão 2.9.2-b1056 (git-master-811db30)
-[17:34:15] [Server thread/INFO]: [Geyser-Spigot] 
-[17:34:15] [Server thread/INFO]: [Geyser-Spigot] ******************************************
-[17:34:18] [Server thread/WARN]: [Geyser-Spigot] XBOX AUTHENTICATION IS DISABLED ON THIS GEYSER INSTANCE!
-[17:34:18] [Server thread/WARN]: [Geyser-Spigot] While this allows using Bedrock edition proxies, it also opens up the ability for hackers to connect with any username they choose.
-[17:34:18] [Server thread/WARN]: [Geyser-Spigot] To change this, set "disable-xbox-auth" to "false" in Geyser's config file.
-[17:34:18] [Server thread/INFO]: [Geyser-Spigot] Geyser iniciado na porta UDP 19132
-[17:34:18] [Server thread/INFO]: [Geyser-Spigot] Concluído (3,184 s)! Execute /geyser help para obter ajuda!
-[17:34:18] [Server thread/INFO]: Starting remote control listener
-[17:34:18] [Server thread/INFO]: Thread RCON Listener started
-[17:34:18] [Server thread/INFO]: RCON running on 0.0.0.0:25575
-[17:34:18] [Server thread/INFO]: Running delayed init tasks
-[17:34:18] [Server thread/INFO]: Done (18.877s)! For help, type "help"
-[17:34:18] [Paper Async Task Handler Thread - 1/INFO]: *** Currently you are 5 build(s) behind ***
-[17:34:18] [Paper Async Task Handler Thread - 1/INFO]: *** It is highly recommended to download the latest build from https://papermc.io/downloads/paper ***
+[14:30:11] [ServerMain/INFO]: [bootstrap] Running Java 25 (OpenJDK 64-Bit Server VM 25.0.3+9-2-24.04.2-Ubuntu; Ubuntu null) on Linux 7.0.0-28-generic (amd64)
+[14:30:11] [ServerMain/INFO]: [bootstrap] Loading Paper 26.2-84-main@26e81c4 (2026-07-26T18:11:33Z) for Minecraft 26.2
+[14:30:11] [ServerMain/INFO]: [PluginInitializerManager] Initializing plugins...
+[14:30:11] [ServerMain/INFO]: [PluginInitializerManager] Initialized 4 plugins
+[14:30:11] [ServerMain/INFO]: [PluginInitializerManager] Bukkit plugins (4):
+ - CustomStructures (1.9.1), Geyser-Spigot (2.11.0-SNAPSHOT), MythicMobs (5.13.0-aad3f1c9), WorldEdit (7.4.4+7546-f9e033f)
+[14:30:14] [DataConverter MCTypeRegistry init thread/INFO]: [ca.spottedleaf.dataconverter.minecraft.datatypes.MCTypeRegistry] Initialising converters for DataConverter...
+[14:30:14] [ServerMain/INFO]: Environment: Environment[sessionHost=https://sessionserver.mojang.com, servicesHost=https://api.minecraftservices.com, profilesHost=https://api.mojang.com, name=PROD]
+[14:30:14] [DataConverter MCTypeRegistry init thread/INFO]: [ca.spottedleaf.dataconverter.minecraft.datatypes.MCTypeRegistry] Finished initialising converters for DataConverter in 316,3ms
+[14:30:15] [ServerMain/INFO]: Found new data pack file/bukkit, loading it automatically
+[14:30:15] [ServerMain/INFO]: Found new data pack paper, loading it automatically
+[14:30:15] [Worker-Main-4/INFO]: No existing world data, creating new world
+[14:30:16] [ServerMain/INFO]: Loaded 1585 recipes
+[14:30:16] [ServerMain/INFO]: Loaded 1688 advancements
+[14:30:16] [Server thread/INFO]: Starting minecraft server version 26.2
+[14:30:16] [Server thread/INFO]: Loading properties
+[14:30:16] [Server thread/INFO]: This server is running Paper version 26.2-84-main@26e81c4 (2026-07-26T18:11:33Z) (Implementing API version 26.2.build.84-stable)
+[14:30:16] [Server thread/INFO]: [spark] This server bundles the spark profiler. For more information please visit https://docs.papermc.io/paper/profiling
+[14:30:16] [Server thread/INFO]: Server Ping Player Sample Count: 12
+[14:30:16] [Server thread/INFO]: Using 4 threads for Netty based IO
+[14:30:16] [Server thread/INFO]: [MoonriseCommon] Paper is using 3 worker threads, 1 I/O threads
+[14:30:16] [Server thread/INFO]: Default game type: SURVIVAL
+[14:30:16] [Server thread/INFO]: Generating keypair
+[14:30:16] [Server thread/INFO]: Starting Minecraft server on *:25565
+[14:30:16] [Server thread/INFO]: Paper: Using libdeflate (Linux x86_64) compression from Velocity.
+[14:30:16] [Server thread/INFO]: Paper: Using OpenSSL 3.x.x (Linux x86_64) cipher from Velocity.
+[14:30:16] [Server thread/INFO]: [SpigotLibraryLoader] [MythicMobs] Loading 4 libraries... please wait
+[14:30:17] [Server thread/INFO]: [SpigotLibraryLoader] [MythicMobs] Loaded library /home/samuel/Documentos/server-mine/server/libraries/net/kyori/adventure-api/4.16.0/adventure-api-4.16.0.jar
+[14:30:17] [Server thread/INFO]: [SpigotLibraryLoader] [MythicMobs] Loaded library /home/samuel/Documentos/server-mine/server/libraries/net/kyori/adventure-key/4.16.0/adventure-key-4.16.0.jar
+[14:30:17] [Server thread/INFO]: [SpigotLibraryLoader] [MythicMobs] Loaded library /home/samuel/Documentos/server-mine/server/libraries/net/kyori/examination-api/1.3.0/examination-api-1.3.0.jar
+[14:30:17] [Server thread/INFO]: [SpigotLibraryLoader] [MythicMobs] Loaded library /home/samuel/Documentos/server-mine/server/libraries/net/kyori/examination-string/1.3.0/examination-string-1.3.0.jar
+[14:30:17] [Server thread/INFO]: [SpigotLibraryLoader] [MythicMobs] Loaded library /home/samuel/Documentos/server-mine/server/libraries/org/jetbrains/annotations/24.1.0/annotations-24.1.0.jar
+[14:30:17] [Server thread/INFO]: [SpigotLibraryLoader] [MythicMobs] Loaded library /home/samuel/Documentos/server-mine/server/libraries/net/kyori/adventure-platform-bukkit/4.3.2/adventure-platform-bukkit-4.3.2.jar
+[14:30:17] [Server thread/INFO]: [SpigotLibraryLoader] [MythicMobs] Loaded library /home/samuel/Documentos/server-mine/server/libraries/net/kyori/adventure-platform-api/4.3.2/adventure-platform-api-4.3.2.jar
+[14:30:17] [Server thread/INFO]: [SpigotLibraryLoader] [MythicMobs] Loaded library /home/samuel/Documentos/server-mine/server/libraries/net/kyori/adventure-text-serializer-bungeecord/4.3.2/adventure-text-serializer-bungeecord-4.3.2.jar
+[14:30:17] [Server thread/INFO]: [SpigotLibraryLoader] [MythicMobs] Loaded library /home/samuel/Documentos/server-mine/server/libraries/net/kyori/adventure-text-serializer-legacy/4.13.1/adventure-text-serializer-legacy-4.13.1.jar
+[14:30:17] [Server thread/INFO]: [SpigotLibraryLoader] [MythicMobs] Loaded library /home/samuel/Documentos/server-mine/server/libraries/net/kyori/adventure-nbt/4.13.1/adventure-nbt-4.13.1.jar
+[14:30:17] [Server thread/INFO]: [SpigotLibraryLoader] [MythicMobs] Loaded library /home/samuel/Documentos/server-mine/server/libraries/net/kyori/adventure-text-serializer-gson-legacy-impl/4.13.1/adventure-text-serializer-gson-legacy-impl-4.13.1.jar
+[14:30:17] [Server thread/INFO]: [SpigotLibraryLoader] [MythicMobs] Loaded library /home/samuel/Documentos/server-mine/server/libraries/net/kyori/adventure-platform-facet/4.3.2/adventure-platform-facet-4.3.2.jar
+[14:30:17] [Server thread/INFO]: [SpigotLibraryLoader] [MythicMobs] Loaded library /home/samuel/Documentos/server-mine/server/libraries/net/kyori/adventure-platform-viaversion/4.3.2/adventure-platform-viaversion-4.3.2.jar
+[14:30:17] [Server thread/INFO]: [SpigotLibraryLoader] [MythicMobs] Loaded library /home/samuel/Documentos/server-mine/server/libraries/net/kyori/adventure-text-minimessage/4.16.0/adventure-text-minimessage-4.16.0.jar
+[14:30:17] [Server thread/INFO]: [SpigotLibraryLoader] [MythicMobs] Loaded library /home/samuel/Documentos/server-mine/server/libraries/net/kyori/adventure-text-serializer-gson/4.16.0/adventure-text-serializer-gson-4.16.0.jar
+[14:30:17] [Server thread/INFO]: [SpigotLibraryLoader] [MythicMobs] Loaded library /home/samuel/Documentos/server-mine/server/libraries/net/kyori/adventure-text-serializer-json/4.16.0/adventure-text-serializer-json-4.16.0.jar
+[14:30:17] [Server thread/INFO]: [SpigotLibraryLoader] [MythicMobs] Loaded library /home/samuel/Documentos/server-mine/server/libraries/net/kyori/option/1.0.0/option-1.0.0.jar
+[14:30:17] [Server thread/INFO]: [SpigotLibraryLoader] [MythicMobs] Loaded library /home/samuel/Documentos/server-mine/server/libraries/com/google/code/gson/gson/2.8.0/gson-2.8.0.jar
+[14:30:17] [Server thread/INFO]: [MythicMobs] Loading server plugin MythicMobs v5.13.0-aad3f1c9
+[14:30:17] [Server thread/INFO]: [LumineUtils] (io.lumine.mythic.bukkit.utils.) is bound to plugin MythicMobs - io.lumine.mythic.bukkit.MythicBukkit
+[14:30:17] [Server thread/INFO]: [MythicMobs] §x§f§f§0§0§0§0M§x§f§f§6§d§0§0y§x§f§f§d§a§0§0t§x§b§6§f§f§0§0h§x§4§8§f§f§0§0i§x§0§0§f§f§2§4c§x§0§0§f§f§9§1 §x§0§0§f§f§f§fL§x§0§0§9§1§f§fo§x§0§0§2§4§f§fa§x§4§8§0§0§f§fd§x§b§6§0§0§f§fe§x§f§f§0§0§d§ad§x§f§f§0§0§6§d!
+[14:30:17] [Server thread/INFO]: [WorldEdit] Loading server plugin WorldEdit v7.4.4+7546-f9e033f
+[14:30:17] [Server thread/INFO]: Got request to register class com.sk89q.worldedit.bukkit.BukkitServerInterface with WorldEdit [com.sk89q.worldedit.extension.platform.PlatformManager@4820858c]
+[14:30:17] [Server thread/INFO]: [CustomStructures] Loading server plugin CustomStructures v1.9.1
+[14:30:17] [Server thread/INFO]: [Geyser-Spigot] Loading server plugin Geyser-Spigot v2.11.0-SNAPSHOT
+[14:30:18] [Server thread/INFO]: [Geyser-Spigot] Carregando extensões...
+[14:30:18] [Server thread/INFO]: [Geyser-Spigot] 0 extensão(ões) carregada
+[14:30:18] [Server thread/INFO]: Server permissions file permissions.yml is empty, ignoring it
+[14:30:18] [Server thread/INFO]: [WorldEdit] Enabling WorldEdit v7.4.4+7546-f9e033f
+[14:30:18] [Server thread/INFO]: Registering commands with com.sk89q.worldedit.bukkit.BukkitServerInterface
+[14:30:18] [Server thread/INFO]: WEPIF: Using the Bukkit Permissions API.
+[14:30:18] [Server thread/INFO]: Using com.sk89q.worldedit.bukkit.adapter.impl.v26_2.PaperweightAdapter as the Bukkit adapter
+[14:30:18] [Server thread/WARN]: **** SERVER IS RUNNING IN OFFLINE/INSECURE MODE!
+[14:30:18] [Server thread/WARN]: The server will make no attempt to authenticate usernames. Beware.
+[14:30:18] [Server thread/WARN]: While this makes the game possible to play without internet access, it also opens up the ability for hackers to connect with any username they choose.
+[14:30:18] [Server thread/WARN]: To change this, set "online-mode" to "true" in the server.properties file.
+[14:30:18] [Server thread/INFO]: Preparing level "Server"
+[14:30:19] [Server thread/INFO]: Selecting spawn point for level 'minecraft:overworld'...
+[14:30:21] [Server thread/INFO]: Selecting spawn point for level 'minecraft:the_nether'...
+[14:30:21] [Server thread/INFO]: Selecting spawn point for level 'minecraft:the_end'...
+[14:30:22] [Server thread/INFO]: Loading 0 persistent chunks for level 'minecraft:overworld'...
+[14:30:22] [Server thread/INFO]: Preparing spawn area: 100%
+[14:30:22] [Server thread/INFO]: Prepared spawn area in 3061 ms
+[14:30:22] [Server thread/INFO]: Loading 0 persistent chunks for level 'minecraft:the_nether'...
+[14:30:22] [Server thread/INFO]: Preparing spawn area: 100%
+[14:30:22] [Server thread/INFO]: Prepared spawn area in 570 ms
+[14:30:22] [Server thread/INFO]: Loading 0 persistent chunks for level 'minecraft:the_end'...
+[14:30:22] [Server thread/INFO]: Preparing spawn area: 100%
+[14:30:22] [Server thread/INFO]: Prepared spawn area in 202 ms
+[14:30:22] [Server thread/INFO]: Done preparing level "Server" (3.580s)
+[14:30:22] [Server thread/INFO]: [MythicMobs] Enabling MythicMobs v5.13.0-aad3f1c9
+[14:30:22] [Server thread/INFO]: [MythicMobs] Loading MythicMobs for Paper (MC: 26.2.0)...
+[14:30:22] [Server thread/INFO]: [MythicMobs] The server is running Paper; enabled Paper exclusive functionality
+[14:30:25] [Server thread/INFO]: [MythicMobs] Loading Packs...
+[14:30:26] [Server thread/INFO]: [MythicMobs] Loading Items...
+[14:30:26] [Server thread/INFO]: [MythicMobs] Loading Item Groups...
+[14:30:26] [Server thread/INFO]: [MythicMobs] All items loaded after 34ms!
+[14:30:26] [Server thread/INFO]: [MythicMobs] Loading Skills...
+[14:30:26] [Server thread/INFO]: [MythicMobs] Loading Drop Tables...
+[14:30:26] [Server thread/INFO]: [MythicMobs] Loading Random Spawns...
+[14:30:26] [Server thread/INFO]: [MythicMobs] Loading Spawn Blocks...
+[14:30:26] [Server thread/INFO]: [MythicMobs] Second passes loaded after 10ms!
+[14:30:26] [Server thread/INFO]: [MythicMobs] ✓ Loaded 8 mobs.
+[14:30:26] [Server thread/INFO]: [MythicMobs] ✓ Loaded 3 vanilla mob overrides.
+[14:30:26] [Server thread/INFO]: [MythicMobs] ✓ Loaded 0 mob stacks.
+[14:30:26] [Server thread/INFO]: [MythicMobs] ✓ Loaded 3 skills.
+[14:30:26] [Server thread/INFO]: [MythicMobs] ✓ Loaded 0 random spawns.
+[14:30:26] [Server thread/INFO]: [MythicMobs] ✓ Loaded 3 mythic items.
+[14:30:26] [Server thread/INFO]: [MythicMobs] ✓ Loaded 2 drop tables.
+[14:30:26] [Server thread/INFO]: [MythicMobs] ✓ Loaded 0 mob spawners.
+[14:30:26] [Server thread/INFO]: [MythicMobs] MythicMobs configuration file loaded successfully.
+[14:30:26] [Server thread/INFO]: [MythicMobs] Loaded 0 camera path(s).
+[14:30:26] [Server thread/INFO]: [MythicMobs] Started up bStats Metrics
+[14:30:26] [Server thread/INFO]: [MythicMobs] ✓ MythicMobs v5.13.0 ( build aad3f1c9 ) has been successfully loaded!
+[14:30:26] [Server thread/INFO]: [CustomStructures] Enabling CustomStructures v1.9.1
+[14:30:26] [Server thread/INFO]: [CustomStructures] PlaceholderAPI not found.
+[14:30:26] [Server thread/INFO]: [CustomStructures] MythicMobs detected! Activating plugin hook!
+[14:30:26] [Server thread/INFO]: [CustomStructures] Bstat metrics for this plugin is enabled. Disable it in the config if you do not want it on.
+[14:30:26] [Server thread/INFO]: [Geyser-Spigot] Enabling Geyser-Spigot v2.11.0-SNAPSHOT
+[14:30:27] [Server thread/INFO]: [spark] Starting background profiler...
+[14:30:27] [Server thread/INFO]: [Geyser-Spigot] ******************************************
+[14:30:27] [Server thread/INFO]: [Geyser-Spigot] 
+[14:30:27] [Server thread/INFO]: [Geyser-Spigot] Carregando Geyser versão 2.11.0-b1204 (git-master-fb48b38)
+[14:30:27] [Server thread/INFO]: [Geyser-Spigot] 
+[14:30:27] [Server thread/INFO]: [Geyser-Spigot] ******************************************
+[14:30:28] [Server thread/INFO]: [Geyser-Spigot] Registered 199 custom block overrides.
+[14:30:28] [Server thread/INFO]: [Geyser-Spigot] Registered 2 custom block item overrides.
+[14:30:28] [Server thread/INFO]: [Geyser-Spigot] Registered 7 custom blocks.
+[14:30:29] [Server thread/INFO]: [Geyser-Spigot] Registered 1 custom items
+[14:30:30] [Server thread/WARN]: [Geyser-Spigot] XBOX AUTHENTICATION IS DISABLED ON THIS GEYSER INSTANCE!
+[14:30:30] [Server thread/WARN]: [Geyser-Spigot] While this allows using Bedrock edition proxies, it also opens up the ability for hackers to connect with any username they choose.
+[14:30:30] [Server thread/WARN]: [Geyser-Spigot] To change this, set "disable-xbox-auth" to "false" in Geyser's config file.
+[14:30:30] [GeyserServer-3-1/INFO]: [Geyser-Spigot] Geyser iniciado na porta UDP 19132
+[14:30:30] [Server thread/INFO]: [Geyser-Spigot] Concluído (2,267 s)! Execute /geyser help para obter ajuda!
+[14:30:30] [Server thread/INFO]: Starting remote control listener
+[14:30:30] [Server thread/INFO]: Thread RCON Listener started
+[14:30:30] [Server thread/INFO]: RCON running on 0.0.0.0:25575
+[14:30:30] [Server thread/INFO]: Saving chunks for level 'ServerLevel[Server]'/minecraft:overworld
+[14:30:30] [Server thread/INFO]: Saving chunks for level 'ServerLevel[Server]'/minecraft:the_nether
+[14:30:30] [Server thread/INFO]: Saving chunks for level 'ServerLevel[Server]'/minecraft:the_end
+[14:30:30] [Server thread/INFO]: ThreadedAnvilChunkStorage (world): All chunks are saved
+[14:30:30] [Server thread/INFO]: ThreadedAnvilChunkStorage (DIM-1): All chunks are saved
+[14:30:30] [Server thread/INFO]: ThreadedAnvilChunkStorage (DIM1): All chunks are saved
+[14:30:30] [Server thread/INFO]: ThreadedAnvilChunkStorage: All dimensions are saved
+[14:30:30] [Server thread/INFO]: Running delayed init tasks
+[14:30:30] [Server thread/INFO]: Done (19.789s)! For help, type "help"
+[14:30:30] [Server thread/INFO]: [MythicMobs] Loaded 3 dialog definition(s)
+[14:30:30] [Server thread/INFO]: [MythicMobs] Loaded 3 dialog definition(s)
+[14:30:31] [Server thread/WARN]: [MythicMobs] Dialog 'QuestOffer': could not find skill 'ExampleQuestAccepted'
+[14:30:31] [Server thread/WARN]: [MythicMobs] Dialog 'QuestOffer': could not find skill 'ExampleQuestDeclined'
+[14:30:31] [Server thread/WARN]: [MythicMobs] Dialog 'CharacterSetup': could not find skill 'ExampleCharacterConfirmed'
+[14:30:31] [Server thread/WARN]: [MythicMobs] Dialog 'QuestOffer': could not find skill 'ExampleQuestAccepted'
+[14:30:31] [Server thread/WARN]: [MythicMobs] Dialog 'QuestOffer': could not find skill 'ExampleQuestDeclined'
+[14:30:31] [Server thread/WARN]: [MythicMobs] Dialog 'CharacterSetup': could not find skill 'ExampleCharacterConfirmed'
+[14:30:31] [Server thread/INFO]: [CustomStructures] Loading structures from files.
+[14:30:31] [Server thread/WARN]: [CustomStructures] Unable to enable SubStructures on structure .
+[14:30:31] [Server thread/WARN]: [CustomStructures] The following error occurred:
+[14:30:31] [Server thread/WARN]: [CustomStructures] Format Error: Schematics does not contain a file!
+[14:30:31] [Server thread/INFO]: [CustomStructures] The plugin has been fully enabled with 1 structures.
+[14:30:31] [Server thread/INFO]: [CustomStructures] 0 addons were found.
