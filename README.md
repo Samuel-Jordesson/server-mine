@@ -53,6 +53,14 @@ No final, ele mostra na tela o comando para iniciar o servidor e as portas usada
 npm run dev
 ```
 
+Por padrão o servidor usa `-Xms2G -Xmx4G` (2GB a 4GB de RAM). Em VPS com pouca memória, ajuste antes de rodar:
+
+```bash
+MC_MIN_MEMORY=256M MC_MAX_MEMORY=512M npm run dev
+```
+
+Regra prática: deixe pelo menos ~300-400MB de RAM livre para o sistema operacional além do valor de `MC_MAX_MEMORY`. Rode `free -h` para ver quanto sua máquina tem disponível.
+
 ### Deixar rodando em segundo plano (recomendado)
 
 Use `tmux` para manter o servidor rodando mesmo depois de fechar o terminal/SSH:
