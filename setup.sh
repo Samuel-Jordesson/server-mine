@@ -15,8 +15,23 @@ fi
 if [ "$JAVA_MAJOR" -lt 25 ]; then
     echo "Java atual (versão $JAVA_MAJOR) é antigo demais para o Paper 26.x. Instalando Java 25..."
     sudo apt update
-    sudo apt install -y openjdk-25-jre-headless
-    sudo update-alternatives --set java "$(update-alternatives --list java | grep 'java-25' | head -n 1)" 2>/dev/null || true
+
+    if sudo apt install -y openjdk-25-jre-headless 2>/dev/null; then
+        JAVA_BIN=$(update-alternatives --list java | grep 'java-25' | head -n 1)
+    else
+        echo "openjdk-25 não disponível nos repositórios padrão (comum em Ubuntu mais antigo)."
+        echo "Instalando via repositório da Adoptium/Eclipse Temurin..."
+        sudo apt install -y wget gnupg
+        wget -qO- https://packages.adoptium.net/artifactory/api/gpg/key/public | sudo gpg --dearmor -o /etc/apt/trusted.gpg.d/adoptium.gpg
+        echo "deb https://packages.adoptium.net/artifactory/deb $(awk -F= '/^VERSION_CODENAME/{print $2}' /etc/os-release) main" | sudo tee /etc/apt/sources.list.d/adoptium.list
+        sudo apt update
+        sudo apt install -y temurin-25-jre
+        JAVA_BIN=$(update-alternatives --list java | grep -i 'temurin-25\|java-25' | head -n 1)
+    fi
+
+    if [ -n "$JAVA_BIN" ]; then
+        sudo update-alternatives --set java "$JAVA_BIN"
+    fi
 else
     echo "Java já está na versão correta: $(java -version 2>&1 | head -n 1)"
 fi
