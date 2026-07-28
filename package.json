@@ -5,8 +5,10 @@
   "main": "index.js",
   "scripts": {
     "dev": "concurrently -n SERVER,WEB -c green,cyan \"node start-server.js\" \"node web-server.js\"",
+    "dev:tunnel": "concurrently -n SERVER,WEB,TUNNEL -c green,cyan,magenta \"node start-server.js\" \"node web-server.js\" \"bash start-tunnel.sh\"",
     "start": "node start-server.js",
     "web": "node web-server.js",
+    "tunnel": "bash start-tunnel.sh",
     "setup": "bash setup.sh",
     "setup-geyser": "node setup-geyser.js",
     "setup-simple": "node setup-geyser-simple.js",

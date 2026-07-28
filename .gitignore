@@ -4,6 +4,9 @@ node_modules/
 npm-debug.log
 yarn-error.log
 
+# Segredos
+.env
+
 # Documentação e scripts auxiliares
 md/
 
