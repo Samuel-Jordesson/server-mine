@@ -14,7 +14,8 @@
     "setup": "bash setup.sh",
     "setup-geyser": "node setup-geyser.js",
     "setup-simple": "node setup-geyser-simple.js",
-    "enable-rcon": "node enable-rcon.js"
+    "enable-rcon": "node enable-rcon.js",
+    "reset-mining-world": "node reset-mining-world.js"
   },
   "keywords": [
     "minecraft",
