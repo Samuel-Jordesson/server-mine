@@ -35,20 +35,23 @@ socket.on('log', (logEntry) => {
 
 // Funções
 function addLogEntry(entry) {
+    // Cores pensadas para o console claro: os tons antigos (slate-300) eram
+    // praticamente invisíveis sobre o fundo branco do painel.
     const levelColors = {
         'INFO': 'text-primary',
-        'WARN': 'text-yellow-400',
-        'ERROR': 'text-red-400',
-        'DEBUG': 'text-slate-500'
+        'COMMAND': 'text-primary',
+        'WARN': 'text-amber-600',
+        'ERROR': 'text-error',
+        'DEBUG': 'text-muted'
     };
-    
-    const color = levelColors[entry.level] || 'text-slate-300';
+
+    const color = levelColors[entry.level] || 'text-muted';
     const div = document.createElement('div');
-    div.className = 'flex gap-4 mb-2';
+    div.className = 'flex gap-3 mb-1.5';
     div.innerHTML = `
-        <span class="text-slate-500">[${entry.timestamp}]</span>
-        <span class="${color} font-bold">[${entry.level}]</span>
-        <span class="text-slate-300">${escapeHtml(entry.message)}</span>
+        <span class="text-muted shrink-0">${entry.timestamp}</span>
+        <span class="${color} font-medium shrink-0">${entry.level}</span>
+        <span class="text-ink break-all">${escapeHtml(entry.message)}</span>
     `;
     consoleDiv.appendChild(div);
 }
@@ -411,7 +414,7 @@ function restartServer() {
 function clearLogs() {
     showConfirmModal('Deseja limpar os logs da tela?', () => {
         logs = [];
-        consoleDiv.innerHTML = '<div class="text-slate-500">Logs limpos</div>';
+        consoleDiv.innerHTML = '<div class="text-muted">Logs limpos</div>';
     }, { title: 'Limpar logs', confirmLabel: 'Limpar' });
 }
 
@@ -1000,10 +1003,10 @@ function openPlayerManageModal(name) {
             <div>
                 <p class="text-[13px] text-muted mb-2">Modo de Jogo</p>
                 <div class="grid grid-cols-2 gap-2">
-                    <button onclick="playerAction('${name}','gamemode',{mode:'survival'},'${name} agora está em Sobrevivência')" class="px-3 py-2 bg-soft border border-hairline rounded-lg text-xs font-bold uppercase hover:bg-soft">Sobrevivência</button>
-                    <button onclick="playerAction('${name}','gamemode',{mode:'creative'},'${name} agora está em Criativo')" class="px-3 py-2 bg-soft border border-hairline rounded-lg text-xs font-bold uppercase hover:bg-soft">Criativo</button>
-                    <button onclick="playerAction('${name}','gamemode',{mode:'adventure'},'${name} agora está em Aventura')" class="px-3 py-2 bg-soft border border-hairline rounded-lg text-xs font-bold uppercase hover:bg-soft">Aventura</button>
-                    <button onclick="playerAction('${name}','gamemode',{mode:'spectator'},'${name} agora está em Espectador')" class="px-3 py-2 bg-soft border border-hairline rounded-lg text-xs font-bold uppercase hover:bg-soft">Espectador</button>
+                    <button onclick="playerAction('${name}','gamemode',{mode:'survival'},'${name} agora está em Sobrevivência')" class="px-3 py-2 bg-panel border border-hairline text-ink rounded-lg text-[13px] font-medium hover:bg-soft">Sobrevivência</button>
+                    <button onclick="playerAction('${name}','gamemode',{mode:'creative'},'${name} agora está em Criativo')" class="px-3 py-2 bg-panel border border-hairline text-ink rounded-lg text-[13px] font-medium hover:bg-soft">Criativo</button>
+                    <button onclick="playerAction('${name}','gamemode',{mode:'adventure'},'${name} agora está em Aventura')" class="px-3 py-2 bg-panel border border-hairline text-ink rounded-lg text-[13px] font-medium hover:bg-soft">Aventura</button>
+                    <button onclick="playerAction('${name}','gamemode',{mode:'spectator'},'${name} agora está em Espectador')" class="px-3 py-2 bg-panel border border-hairline text-ink rounded-lg text-[13px] font-medium hover:bg-soft">Espectador</button>
                 </div>
             </div>
 
@@ -1038,8 +1041,8 @@ function openPlayerManageModal(name) {
             <div>
                 <p class="text-[13px] text-muted mb-2">Ações</p>
                 <div class="grid grid-cols-2 gap-2">
-                    <button onclick="confirmKickPlayer('${name}')" class="px-3 py-2 bg-error/10 text-error border border-error/20 rounded-lg text-xs font-bold uppercase hover:bg-error/20">Kickar</button>
-                    <button onclick="confirmBanPlayer('${name}')" class="px-3 py-2 bg-error text-white rounded-lg text-xs font-bold uppercase hover:brightness-90">Banir</button>
+                    <button onclick="confirmKickPlayer('${name}')" class="px-3 py-2 bg-panel border border-hairline text-error rounded-lg text-[13px] font-medium hover:bg-error/5">Kickar</button>
+                    <button onclick="confirmBanPlayer('${name}')" class="px-3 py-2 bg-error text-white rounded-lg text-[13px] font-medium hover:brightness-90">Banir</button>
                 </div>
             </div>
         </div>
