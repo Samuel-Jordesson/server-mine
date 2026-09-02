@@ -685,7 +685,10 @@ app.get('/api/status', async (req, res) => {
         worldExists: fs.existsSync(path.join(serverDir, levelName)),
         javaPort,
         bedrockPort: readBedrockPort(),
-        localIp: publicIp || getLocalIP()
+        localIp: publicIp || getLocalIP(),
+        // Domínio fixo do servidor (o IP da instância muda a cada boot na AWS).
+        // Definido em SERVER_DOMAIN no .env - o mesmo valor que o update-dns.sh usa.
+        domain: process.env.SERVER_DOMAIN || ''
     });
 });
 

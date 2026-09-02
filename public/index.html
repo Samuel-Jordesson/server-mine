@@ -215,7 +215,7 @@
             </div>
             <div class="grid grid-cols-2 gap-3">
                 <div class="flex flex-col gap-1">
-                    <span class="text-[11px] font-bold text-on-surface-variant uppercase tracking-widest">Endereço (IP)</span>
+                    <span class="text-[11px] font-bold text-on-surface-variant uppercase tracking-widest">Endereço</span>
                     <span class="text-lg font-black text-on-surface truncate" id="java-connect-ip">-</span>
                 </div>
                 <div class="flex flex-col gap-1">
@@ -223,9 +223,10 @@
                     <span class="text-lg font-black text-on-surface" id="java-connect-port">-</span>
                 </div>
             </div>
+            <span class="text-[11px] text-on-surface-variant" id="java-connect-alt"></span>
             <button onclick="copyConnectInfo('java')" class="self-start flex items-center gap-1.5 text-xs font-bold text-primary uppercase tracking-widest">
-                <span class="material-symbols-outlined text-sm">content_copy</span>
-                Copiar endereço:porta
+                <span class="material-symbols-outlined text-sm" id="java-copy-icon">content_copy</span>
+                <span id="java-copy-label">Copiar endereço</span>
             </button>
         </div>
         <div class="bg-surface-container-lowest border border-surface-variant p-padding-card rounded-xl flex flex-col gap-4 transition-shadow">
@@ -235,7 +236,7 @@
             </div>
             <div class="grid grid-cols-2 gap-3">
                 <div class="flex flex-col gap-1">
-                    <span class="text-[11px] font-bold text-on-surface-variant uppercase tracking-widest">Endereço (IP)</span>
+                    <span class="text-[11px] font-bold text-on-surface-variant uppercase tracking-widest">Endereço</span>
                     <span class="text-lg font-black text-on-surface truncate" id="bedrock-connect-ip">-</span>
                 </div>
                 <div class="flex flex-col gap-1">
@@ -243,9 +244,10 @@
                     <span class="text-lg font-black text-on-surface" id="bedrock-connect-port">-</span>
                 </div>
             </div>
+            <span class="text-[11px] text-on-surface-variant" id="bedrock-connect-alt"></span>
             <button onclick="copyConnectInfo('bedrock')" class="self-start flex items-center gap-1.5 text-xs font-bold text-primary uppercase tracking-widest">
-                <span class="material-symbols-outlined text-sm">content_copy</span>
-                Copiar endereço:porta
+                <span class="material-symbols-outlined text-sm" id="bedrock-copy-icon">content_copy</span>
+                <span id="bedrock-copy-label">Copiar endereço</span>
             </button>
         </div>
     </div>

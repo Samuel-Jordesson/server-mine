@@ -117,10 +117,16 @@ async function updateStatus() {
         setStatusDot('uptime', status.running);
         setStatusDot('uptime-2', status.running);
 
-        document.getElementById('java-connect-ip').textContent = status.localIp;
+        // Preferimos o domínio: o IP da instância muda toda vez que ela é religada
+        const address = status.domain || status.localIp;
+        const altText = status.domain && status.localIp ? `Ou direto pelo IP: ${status.localIp}` : '';
+
+        document.getElementById('java-connect-ip').textContent = address;
         document.getElementById('java-connect-port').textContent = status.javaPort;
-        document.getElementById('bedrock-connect-ip').textContent = status.localIp;
+        document.getElementById('java-connect-alt').textContent = altText;
+        document.getElementById('bedrock-connect-ip').textContent = address;
         document.getElementById('bedrock-connect-port').textContent = status.bedrockPort;
+        document.getElementById('bedrock-connect-alt').textContent = altText;
 
         // Atualizar contagem de jogadores
         updatePlayerCountDisplay();
@@ -405,10 +411,49 @@ function clearLogs() {
     }, { title: 'Limpar logs', confirmLabel: 'Limpar' });
 }
 
-function copyConnectInfo(type) {
-    const ip = document.getElementById(`${type}-connect-ip`).textContent;
+// O navigator.clipboard só existe em contexto seguro (HTTPS ou localhost).
+// Como o painel é servido por HTTP no IP da instância, precisa do fallback antigo.
+async function copyToClipboard(text) {
+    try {
+        if (navigator.clipboard && window.isSecureContext) {
+            await navigator.clipboard.writeText(text);
+            return true;
+        }
+    } catch (error) {
+        // segue para o fallback
+    }
+
+    try {
+        const area = document.createElement('textarea');
+        area.value = text;
+        area.setAttribute('readonly', '');
+        area.style.position = 'fixed';
+        area.style.opacity = '0';
+        document.body.appendChild(area);
+        area.select();
+        const copied = document.execCommand('copy');
+        document.body.removeChild(area);
+        return copied;
+    } catch (error) {
+        return false;
+    }
+}
+
+async function copyConnectInfo(type) {
+    const address = document.getElementById(`${type}-connect-ip`).textContent;
     const port = document.getElementById(`${type}-connect-port`).textContent;
-    navigator.clipboard.writeText(`${ip}:${port}`);
+    const copied = await copyToClipboard(`${address}:${port}`);
+
+    const icon = document.getElementById(`${type}-copy-icon`);
+    const label = document.getElementById(`${type}-copy-label`);
+    if (!icon || !label) return;
+
+    icon.textContent = copied ? 'check' : 'error';
+    label.textContent = copied ? 'Copiado!' : 'Não foi possível copiar';
+    setTimeout(() => {
+        icon.textContent = 'content_copy';
+        label.textContent = 'Copiar endereço';
+    }, 2000);
 }
 
 // Atualizar status a cada 5 segundos
