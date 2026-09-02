@@ -404,6 +404,30 @@ app.post('/api/players/:name/action', express.json(), async (req, res) => {
     }
 });
 
+// O Minecraft normalmente NÃO grava a seed em server.properties quando ela é gerada
+// aleatoriamente - só existe de fato dentro do mundo salvo. Buscamos via RCON ("seed")
+// e guardamos em cache (só muda se o mundo for resetado/recriado).
+let cachedSeed = null;
+let cachedSeedWorld = null;
+
+async function getWorldSeed(levelName) {
+    if (cachedSeed !== null && cachedSeedWorld === levelName) {
+        return cachedSeed;
+    }
+    try {
+        const result = await runRcon('seed');
+        const match = String(result).match(/-?\d+/);
+        if (match) {
+            cachedSeed = match[0];
+            cachedSeedWorld = levelName;
+            return cachedSeed;
+        }
+    } catch (err) {
+        // servidor desligado ou RCON indisponível - segue sem a seed
+    }
+    return null;
+}
+
 app.get('/api/status', async (req, res) => {
     const props = readServerProperties();
     const javaPort = parseInt(props['server-port'] || '25565', 10);
@@ -411,6 +435,7 @@ app.get('/api/status', async (req, res) => {
 
     const levelName = props['level-name'] || 'world';
     const publicIp = await getPublicIp();
+    const rconSeed = isRunning ? await getWorldSeed(levelName) : cachedSeedWorld === levelName ? cachedSeed : null;
 
     res.json({
         running: isRunning,
@@ -419,7 +444,7 @@ app.get('/api/status', async (req, res) => {
         maxPlayers: props['max-players'] || '20',
         onlineMode: props['online-mode'] === 'true',
         levelName,
-        levelSeed: props['level-seed'] || '',
+        levelSeed: rconSeed || props['level-seed'] || '',
         worldExists: fs.existsSync(path.join(serverDir, levelName)),
         javaPort,
         bedrockPort: readBedrockPort(),
@@ -731,6 +756,8 @@ function deleteWorldFolders() {
             fs.rmSync(dir, { recursive: true, force: true });
         }
     });
+    cachedSeed = null;
+    cachedSeedWorld = null;
 }
 
 async function isServerRunning() {
@@ -853,6 +880,8 @@ app.post('/api/world/upload', upload.single('worldZip'), async (req, res) => {
 
     const extractDir = path.join(serverDir, '.tmp-extract');
     let wasRunning = false;
+    cachedSeed = null;
+    cachedSeedWorld = null;
 
     try {
         wasRunning = await isServerRunning();

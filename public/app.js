@@ -877,14 +877,20 @@ function openPlayerManageModal(name) {
 
             <div>
                 <p class="text-xs font-bold text-on-surface-variant uppercase tracking-widest mb-2">Restrições</p>
-                <p class="text-[11px] text-on-surface-variant mb-2">"Impedir quebrar/construir" usa o modo Aventura (limitação do próprio Minecraft, não existe trava separada).</p>
-                <div class="grid grid-cols-2 gap-2 mb-2">
-                    <button onclick="playerAction('${name}','restrict',{building:true},'${name} não pode mais quebrar/construir')" class="px-3 py-2 bg-error/10 text-error border border-error/20 rounded-lg text-xs font-bold uppercase hover:bg-error/20">Impedir Quebrar/Construir</button>
-                    <button onclick="playerAction('${name}','restrict',{building:false},'${name} pode quebrar/construir novamente')" class="px-3 py-2 bg-surface-container-low border border-outline-variant rounded-lg text-xs font-bold uppercase hover:bg-surface-container">Permitir Quebrar/Construir</button>
+                <p class="text-[11px] text-on-surface-variant mb-3">"Impedir quebrar/construir" usa o modo Aventura (limitação do próprio Minecraft, não existe trava separada).</p>
+                <div class="flex items-center justify-between py-1.5">
+                    <span class="text-sm text-on-surface font-medium">Impedir quebrar/construir</span>
+                    <label class="switch">
+                        <input type="checkbox" onchange="playerAction('${name}','restrict',{building:this.checked}, this.checked ? '${name} não pode mais quebrar/construir' : '${name} pode quebrar/construir novamente')">
+                        <span class="slider"></span>
+                    </label>
                 </div>
-                <div class="grid grid-cols-2 gap-2">
-                    <button onclick="playerAction('${name}','pvp',{enabled:false},'${name} não pode mais atacar outros jogadores')" class="px-3 py-2 bg-error/10 text-error border border-error/20 rounded-lg text-xs font-bold uppercase hover:bg-error/20">Impedir PvP</button>
-                    <button onclick="playerAction('${name}','pvp',{enabled:true},'${name} pode atacar outros jogadores novamente')" class="px-3 py-2 bg-surface-container-low border border-outline-variant rounded-lg text-xs font-bold uppercase hover:bg-surface-container">Permitir PvP</button>
+                <div class="flex items-center justify-between py-1.5">
+                    <span class="text-sm text-on-surface font-medium">Impedir PvP</span>
+                    <label class="switch">
+                        <input type="checkbox" onchange="playerAction('${name}','pvp',{enabled:!this.checked}, this.checked ? '${name} não pode mais atacar outros jogadores' : '${name} pode atacar outros jogadores novamente')">
+                        <span class="slider"></span>
+                    </label>
                 </div>
             </div>
 
