@@ -463,7 +463,10 @@ function loadMap() {
 
 async function renderMap(type) {
     const statusEl = document.getElementById('map-status');
-    const command = type === 'full' ? 'squaremap fullrender world' : 'squaremap radiusrender world 1000';
+    // O squaremap usa o nome namespaced do mundo (minecraft:overworld), não o nome da pasta
+    const command = type === 'full'
+        ? 'squaremap fullrender minecraft:overworld'
+        : 'squaremap radiusrender minecraft:overworld 1000';
 
     statusEl.textContent = 'Enviando comando de renderização...';
     try {
