@@ -490,6 +490,48 @@ async function renderMap(type) {
     }
 }
 
+// Procura vilas, templos, portais etc. e marca no mapa.
+// O squaremap recarrega os marcadores sozinho a cada poucos segundos, então
+// basta esperar a varredura terminar que eles aparecem.
+async function scanStructures() {
+    const statusEl = document.getElementById('map-status');
+
+    try {
+        const response = await fetch('/api/map/structures/scan', { method: 'POST' });
+        const result = await response.json();
+
+        if (!response.ok) {
+            statusEl.textContent = 'Erro: ' + (result.error || 'falha ao iniciar a busca');
+            return;
+        }
+
+        const poll = setInterval(async () => {
+            try {
+                const res = await fetch('/api/map/structures');
+                const data = await res.json();
+                const { running, done, total, error } = data.scan;
+
+                if (running) {
+                    const pct = total ? Math.round((done / total) * 100) : 0;
+                    statusEl.textContent = `Procurando estruturas... ${pct}% (${done}/${total})`;
+                    return;
+                }
+
+                clearInterval(poll);
+                statusEl.textContent = error
+                    ? 'Erro na busca: ' + error
+                    : `${data.structures.length} estruturas encontradas. Use o controle de camadas do mapa para filtrar por tipo.`;
+            } catch (err) {
+                clearInterval(poll);
+                statusEl.textContent = 'Erro ao acompanhar a busca';
+            }
+        }, 1500);
+    } catch (error) {
+        console.error('Erro ao procurar estruturas:', error);
+        statusEl.textContent = 'Erro ao procurar estruturas';
+    }
+}
+
 // Aba Mods
 async function loadPlugins() {
     const container = document.getElementById('plugins-list');

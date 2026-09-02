@@ -28,6 +28,232 @@ const upload = multer({ dest: uploadsDir });
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
 
+// ---------------------------------------------------------------------------
+// Estruturas no mapa (vilas, templos, portais...)
+//
+// O squaremap não tem addon de estruturas, então descobrimos as posições com o
+// /locate do próprio Minecraft - que encontra estruturas mesmo em chunks ainda
+// não gerados, igual fazem os sites de seed. Como o /locate só devolve a MAIS
+// PRÓXIMA de um ponto, varremos a partir de uma grade de origens para achar
+// várias de cada tipo.
+//
+// Os marcadores são injetados na RESPOSTA do markers.json, não no arquivo em
+// disco: o squaremap reescreve esse arquivo a cada poucos segundos, então
+// mesclar só na resposta evita conflito e sobrevive a reinícios do plugin.
+// ---------------------------------------------------------------------------
+const STRUCTURE_LAYERS = [
+    {
+        id: 'vilas', name: 'Vilas', color: '#16a34a',
+        glyph: '<path d="M16 9 L24.5 16.5 H21.5 V23.5 H10.5 V16.5 H7.5 Z" fill="#fff"/>',
+        types: {
+            'minecraft:village_plains': 'Vila de Planície',
+            'minecraft:village_desert': 'Vila do Deserto',
+            'minecraft:village_savanna': 'Vila da Savana',
+            'minecraft:village_snowy': 'Vila da Neve',
+            'minecraft:village_taiga': 'Vila da Taiga'
+        }
+    },
+    {
+        id: 'templos', name: 'Templos', color: '#ea580c',
+        glyph: '<path d="M16 8.5 L24.5 23.5 H7.5 Z" fill="#fff"/>',
+        types: {
+            'minecraft:desert_pyramid': 'Pirâmide do Deserto',
+            'minecraft:jungle_pyramid': 'Templo da Selva',
+            'minecraft:swamp_hut': 'Cabana da Bruxa',
+            'minecraft:igloo': 'Iglu',
+            'minecraft:trail_ruins': 'Ruínas de Trilha'
+        }
+    },
+    {
+        id: 'raras', name: 'Estruturas Raras', color: '#9333ea',
+        glyph: '<path d="M16 8 L18.4 13.9 L24.7 14.4 L19.9 18.5 L21.4 24.6 L16 21.2 L10.6 24.6 L12.1 18.5 L7.3 14.4 L13.6 13.9 Z" fill="#fff"/>',
+        types: {
+            'minecraft:mansion': 'Mansão da Floresta',
+            'minecraft:monument': 'Monumento Oceânico',
+            'minecraft:ancient_city': 'Cidade Antiga',
+            'minecraft:stronghold': 'Fortaleza (Portal do End)',
+            'minecraft:trial_chambers': 'Câmaras de Provação'
+        }
+    },
+    {
+        id: 'portais', name: 'Portais Arruinados', color: '#db2777',
+        glyph: '<ellipse cx="16" cy="16" rx="5" ry="7.5" fill="none" stroke="#fff" stroke-width="3"/>',
+        types: { 'minecraft:ruined_portal': 'Portal Arruinado' }
+    },
+    {
+        id: 'tesouros', name: 'Tesouros e Naufrágios', color: '#0891b2',
+        glyph: '<rect x="8" y="13" width="16" height="4" rx="1.5" fill="#fff"/><rect x="8.5" y="16" width="15" height="7.5" rx="1" fill="#fff"/><rect x="14.8" y="15" width="2.4" height="4" fill="#0891b2"/>',
+        types: {
+            'minecraft:buried_treasure': 'Tesouro Enterrado',
+            'minecraft:shipwreck': 'Naufrágio',
+            'minecraft:shipwreck_beached': 'Naufrágio Encalhado',
+            'minecraft:ocean_ruin_cold': 'Ruína Oceânica (Fria)',
+            'minecraft:ocean_ruin_warm': 'Ruína Oceânica (Quente)'
+        }
+    },
+    {
+        id: 'perigos', name: 'Postos e Minas', color: '#dc2626',
+        glyph: '<path d="M10.5 10.5 L21.5 21.5 M21.5 10.5 L10.5 21.5" stroke="#fff" stroke-width="3.5" stroke-linecap="round"/>',
+        types: {
+            'minecraft:pillager_outpost': 'Posto Avançado',
+            'minecraft:mineshaft': 'Mina Abandonada'
+        }
+    }
+];
+
+// Origens da varredura: o /locate acha só a estrutura mais próxima de cada ponto,
+// então buscamos a partir de vários pontos para cobrir uma área maior.
+const SCAN_ORIGINS = [-4000, 0, 4000].flatMap(x => [-4000, 0, 4000].map(z => [x, z]));
+
+const structuresCacheFile = path.join(serverDir, '.structures-cache.json');
+let structuresCache = [];
+let structureScan = { running: false, done: 0, total: 0, finishedAt: null, error: null };
+
+try {
+    if (fs.existsSync(structuresCacheFile)) {
+        const raw = JSON.parse(fs.readFileSync(structuresCacheFile, 'utf8'));
+        structuresCache = raw.structures || [];
+        structureScan.finishedAt = raw.finishedAt || null;
+    }
+} catch (err) {
+    console.error('Não foi possível ler o cache de estruturas:', err.message);
+}
+
+function findStructureLayer(type) {
+    return STRUCTURE_LAYERS.find(layer => layer.types[type]);
+}
+
+async function scanStructures() {
+    if (structureScan.running) return;
+
+    const allTypes = STRUCTURE_LAYERS.flatMap(layer => Object.keys(layer.types));
+    structureScan = {
+        running: true,
+        done: 0,
+        total: allTypes.length * SCAN_ORIGINS.length,
+        finishedAt: null,
+        error: null
+    };
+
+    const found = new Map();
+    try {
+        for (const type of allTypes) {
+            for (const [x, z] of SCAN_ORIGINS) {
+                try {
+                    const raw = await runRcon(`execute positioned ${x} 64 ${z} run locate structure ${type}`);
+                    // A resposta vem com códigos de cor no meio; só interessam as coordenadas
+                    const match = String(raw).match(/is at \[\s*(-?\d+),\s*~,\s*(-?\d+)\s*\]/);
+                    if (match) {
+                        const foundX = parseInt(match[1], 10);
+                        const foundZ = parseInt(match[2], 10);
+                        found.set(`${type}|${foundX}|${foundZ}`, { type, x: foundX, z: foundZ });
+                    }
+                } catch (err) {
+                    // Estrutura inexistente nessa versão ou servidor ocupado: ignora e segue
+                }
+                structureScan.done++;
+            }
+        }
+
+        structuresCache = [...found.values()];
+        structureScan.finishedAt = Date.now();
+
+        fs.writeFileSync(
+            structuresCacheFile,
+            JSON.stringify({ finishedAt: structureScan.finishedAt, structures: structuresCache }, null, 2),
+            'utf8'
+        );
+    } catch (err) {
+        structureScan.error = err.message;
+    } finally {
+        structureScan.running = false;
+    }
+}
+
+// Monta as camadas de estruturas no formato que o frontend do squaremap espera
+function buildStructureLayers() {
+    return STRUCTURE_LAYERS.map((layer, index) => {
+        const markers = structuresCache
+            .filter(s => layer.types[s.type])
+            .map(s => ({
+                type: 'icon',
+                point: { x: s.x, z: s.z },
+                size: { x: 20, z: 20 },
+                anchor: { x: 10, z: 10 },
+                tooltip_anchor: { x: 0, z: -12 },
+                icon: `painel-${layer.id}`,
+                tooltip: `${layer.types[s.type]}<br>${s.x}, ${s.z}`
+            }));
+
+        return {
+            id: `painel-${layer.id}`,
+            name: layer.name,
+            control: true,
+            hide: false,
+            z_index: 10 + index,
+            order: 10 + index,
+            timestamp: Date.now(),
+            markers
+        };
+    }).filter(layer => layer.markers.length > 0);
+}
+
+app.get('/api/map/structures', (req, res) => {
+    res.json({
+        structures: structuresCache,
+        scan: structureScan,
+        layers: STRUCTURE_LAYERS.map(l => ({ id: l.id, name: l.name, color: l.color }))
+    });
+});
+
+app.post('/api/map/structures/scan', async (req, res) => {
+    if (structureScan.running) {
+        return res.json({ success: true, message: 'Varredura já está em andamento', scan: structureScan });
+    }
+    if (!(await isServerRunning())) {
+        return res.status(400).json({ error: 'O servidor precisa estar ligado para procurar estruturas.' });
+    }
+
+    scanStructures().catch(err => console.error('Erro na varredura de estruturas:', err.message));
+    res.json({ success: true, message: 'Procurando estruturas...', scan: structureScan });
+});
+
+// Ícones das estruturas. O frontend do squaremap monta a URL como
+// images/icon/registered/<nome>.png; servimos SVG aqui (o navegador respeita o
+// Content-Type, não a extensão), assim não precisamos gravar nada na pasta do plugin.
+app.get('/mapa/images/icon/registered/:file', (req, res, next) => {
+    const layer = STRUCTURE_LAYERS.find(l => `painel-${l.id}.png` === req.params.file);
+    if (!layer) return next();
+
+    res.type('image/svg+xml');
+    res.setHeader('Cache-Control', 'public, max-age=86400');
+    res.send(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32">` +
+        `<circle cx="16" cy="16" r="13" fill="${layer.color}" stroke="#ffffff" stroke-width="2.5"/>` +
+        layer.glyph +
+        `</svg>`);
+});
+
+// Mescla as camadas de estruturas na resposta do markers.json do squaremap
+app.get('/mapa/tiles/:world/markers.json', (req, res) => {
+    const world = path.basename(req.params.world);
+    const file = path.join(serverDir, 'plugins', 'squaremap', 'web', 'tiles', world, 'markers.json');
+
+    let layers = [];
+    try {
+        layers = JSON.parse(fs.readFileSync(file, 'utf8'));
+    } catch (err) {
+        // sem markers.json ainda (mundo nunca renderizado): segue só com o nosso
+    }
+
+    // As estruturas que procuramos são todas do overworld
+    if (world === 'minecraft_overworld') {
+        layers = layers.concat(buildStructureLayers());
+    }
+
+    res.setHeader('Cache-Control', 'no-store');
+    res.json(layers);
+});
+
 // Mapa do mundo: o squaremap grava os tiles e o JSON dos jogadores nessa pasta.
 // Servimos ela pelo próprio painel para não precisar abrir outra porta no firewall/AWS.
 // Os .json (posição dos jogadores) não podem ficar em cache, senão o mapa "congela".

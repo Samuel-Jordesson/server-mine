@@ -17,3 +17,6 @@ server/.tmp-extract/
 # Saída do mapa web (squaremap): milhares de tiles gerados por instalação
 server/plugins/squaremap/web/
 server/plugins/squaremap/data/
+
+# Cache das estruturas encontradas pelo /locate (varia por seed/instalação)
+server/.structures-cache.json
