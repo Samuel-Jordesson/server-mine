@@ -209,7 +209,8 @@ function drawUsageChart() {
     ctx.clearRect(0, 0, width, height);
 
     // Linhas de grade horizontais
-    ctx.strokeStyle = '#ebecef';
+    const escuro = document.documentElement.classList.contains('dark');
+    ctx.strokeStyle = escuro ? '#272b33' : '#ebecef';
     ctx.lineWidth = 1;
     for (let i = 0; i <= 4; i++) {
         const y = (height / 4) * i;
@@ -237,8 +238,8 @@ function drawUsageChart() {
         ctx.stroke();
     };
 
-    drawLine(usageHistory.cpu, '#486800');
-    drawLine(usageHistory.ram, '#4e635e');
+    drawLine(usageHistory.cpu, escuro ? '#a4d744' : '#486800');
+    drawLine(usageHistory.ram, escuro ? '#7d938c' : '#4e635e');
 }
 
 window.addEventListener('resize', drawUsageChart);
@@ -504,6 +505,32 @@ function switchView(view) {
     if (view === 'jogadores') renderPlayersList();
     if (view === 'mapa') loadMap();
 }
+
+// Tema claro/escuro
+function applyTheme(escuro) {
+    document.documentElement.classList.toggle('dark', escuro);
+    try {
+        localStorage.setItem('painel-tema', escuro ? 'escuro' : 'claro');
+    } catch (error) {
+        // navegador sem localStorage: o tema só não persiste entre sessões
+    }
+
+    const icone = document.getElementById('theme-icon');
+    const rotulo = document.getElementById('theme-label');
+    const chave = document.getElementById('theme-toggle');
+    if (icone) icone.textContent = escuro ? 'light_mode' : 'dark_mode';
+    if (rotulo) rotulo.textContent = escuro ? 'Modo claro' : 'Modo escuro';
+    if (chave) chave.checked = escuro;
+
+    drawUsageChart();
+}
+
+function toggleTheme(escuro) {
+    applyTheme(escuro);
+}
+
+// O <head> já aplicou a classe para não piscar; aqui só sincronizamos os controles
+applyTheme(document.documentElement.classList.contains('dark'));
 
 // Aba Mapa (squaremap)
 function loadMap() {

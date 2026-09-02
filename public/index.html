@@ -124,6 +124,8 @@
       .switch .slider { position: absolute; inset: 0; background: #dfe1e5; transition: .2s; border-radius: 999px; cursor: pointer; }
       .switch .slider::before { content: ""; position: absolute; height: 16px; width: 16px; left: 3px; top: 3px; background: #fff; transition: .2s; border-radius: 50%; }
       .switch input:checked + .slider { background: #ba1a1a; }
+      .switch-accent input:checked + .slider { background: #4d6e00; }
+      .dark .switch-accent input:checked + .slider { background: #a4d744; }
       .switch input:checked + .slider::before { transform: translateX(18px); }
       .custom-scrollbar::-webkit-scrollbar {
         width: 6px;
@@ -143,12 +145,47 @@
       .nav-item.active .material-symbols-outlined {
         color: #4d6e00;
       }
+
+      /* ---- Tema escuro ---- */
+      .dark body { background-color: #0f1115; }
+      .dark .bg-page { background-color: #0f1115; }
+      .dark .bg-page\/85 { background-color: rgb(15 17 21 / 0.85); }
+      .dark .bg-panel { background-color: #16181d; }
+      .dark .bg-soft { background-color: #1c1f26; }
+      .dark .hover\:bg-soft:hover { background-color: #1c1f26; }
+      .dark .bg-hairline { background-color: #272b33; }
+      .dark .hover\:bg-hairline:hover { background-color: #272b33; }
+      .dark .text-ink { color: #e8eaed; }
+      .dark .text-muted { color: #9aa0a6; }
+      .dark .hover\:text-ink:hover { color: #e8eaed; }
+      .dark .border-hairline { border-color: #272b33; }
+      .dark .divide-hairline > :not([hidden]) ~ :not([hidden]) { border-color: #272b33; }
+      /* o verde da marca é escuro demais para fundo escuro: clareia */
+      .dark .text-primary { color: #a4d744; }
+      .dark .bg-primary { background-color: #a4d744; }
+      .dark .text-primary-fixed-dim { color: #a4d744; }
+      .dark .nav-item.active { background-color: #22262e; color: #e8eaed; }
+      .dark .nav-item.active .material-symbols-outlined { color: #a4d744; }
+      .dark .switch .slider { background: #363b44; }
+      .dark .custom-scrollbar::-webkit-scrollbar-thumb { background: #363b44; }
+      .dark input, .dark textarea, .dark select { color: #e8eaed; }
+      .dark input::placeholder, .dark textarea::placeholder { color: #6b7280; }
       .view { display: none; }
       .view.active { display: block; }
       .gamemode-option.selected {
         background-color: rgb(190 243 93 / 0.4);
       }
     </style>
+<script>
+      // Aplica o tema antes da primeira pintura para não piscar branco
+      (function () {
+        var salvo = null;
+        try { salvo = localStorage.getItem('painel-tema'); } catch (e) {}
+        var escuro = salvo ? salvo === 'escuro'
+          : window.matchMedia('(prefers-color-scheme: dark)').matches;
+        if (escuro) document.documentElement.classList.add('dark');
+      })();
+    </script>
 </head>
 <body class="font-sans text-ink custom-scrollbar overflow-x-hidden">
 <!-- SideNavBar -->
@@ -187,6 +224,16 @@
             Configurações
         </a>
 </nav>
+<div class="px-2 pt-3 mt-3 border-t border-hairline">
+<label class="flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-muted cursor-pointer transition-colors hover:bg-soft hover:text-ink">
+<span class="material-symbols-outlined text-[20px]" id="theme-icon">dark_mode</span>
+<span class="flex-1" id="theme-label">Modo escuro</span>
+<span class="switch switch-accent">
+<input type="checkbox" id="theme-toggle" onchange="toggleTheme(this.checked)"/>
+<span class="slider"></span>
+</span>
+</label>
+</div>
 </aside>
 <!-- TopNavBar -->
 <header class="h-14 w-[calc(100%-240px)] ml-60 fixed top-0 right-0 z-10 bg-page/85 backdrop-blur flex items-center gap-2.5 px-8 border-b border-hairline">
