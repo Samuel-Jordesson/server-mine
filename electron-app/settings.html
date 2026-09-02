@@ -15,6 +15,14 @@
   }
   .row { display: flex; gap: 10px; }
   .row > div { flex: 1; }
+  .input-wrap { position: relative; }
+  .input-wrap input { padding-right: 40px; }
+  .reveal {
+    position: absolute; right: 4px; top: 50%; transform: translateY(-50%);
+    background: none; border: none; padding: 6px; cursor: pointer;
+    color: #94a3b8; display: flex; align-items: center; border-radius: 4px;
+  }
+  .reveal:hover { color: #f1f5f9; background: #334155; }
   .radio-row { display: flex; gap: 16px; margin: 8px 0; }
   .radio-row label { display: flex; align-items: center; gap: 6px; margin: 0; }
   button {
@@ -57,7 +65,10 @@
       </div>
       <div>
         <label>Secret Access Key</label>
-        <input type="password" id="awsSecretAccessKey" autocomplete="off">
+        <div class="input-wrap">
+          <input type="password" id="awsSecretAccessKey" autocomplete="off">
+          <button type="button" class="reveal" id="toggleSecret" title="Mostrar a chave"></button>
+        </div>
       </div>
     </div>
     <div class="row">
@@ -107,6 +118,20 @@
     awsFields.style.display = mode === 'aws' ? 'block' : 'none';
   }
   modeRadios.forEach(r => r.addEventListener('change', updateVisibility));
+
+  // Olho para mostrar/ocultar a Secret Access Key
+  const secretInput = document.getElementById('awsSecretAccessKey');
+  const toggleSecret = document.getElementById('toggleSecret');
+  const ICON_ABERTO = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>';
+  const ICON_FECHADO = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>';
+
+  toggleSecret.innerHTML = ICON_ABERTO;
+  toggleSecret.addEventListener('click', () => {
+    const escondida = secretInput.type === 'password';
+    secretInput.type = escondida ? 'text' : 'password';
+    toggleSecret.innerHTML = escondida ? ICON_FECHADO : ICON_ABERTO;
+    toggleSecret.title = escondida ? 'Ocultar a chave' : 'Mostrar a chave';
+  });
 
   function setBadge(state) {
     awsBadge.className = 'badge';
