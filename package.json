@@ -15,7 +15,9 @@
     "setup-geyser": "node setup-geyser.js",
     "setup-simple": "node setup-geyser-simple.js",
     "enable-rcon": "node enable-rcon.js",
-    "reset-mining-world": "node reset-mining-world.js"
+    "reset-mining-world": "node reset-mining-world.js",
+    "desktop": "bash start-desktop.sh",
+    "desktop:build": "cd electron-app && npx electron-builder"
   },
   "keywords": [
     "minecraft",
@@ -26,11 +28,14 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@aws-sdk/client-ec2": "^3.1124.0",
     "express": "^4.18.2",
     "multer": "^2.2.0",
     "socket.io": "^4.6.1"
   },
   "devDependencies": {
-    "concurrently": "^10.0.4"
+    "concurrently": "^10.0.4",
+    "electron": "^44.1.1",
+    "electron-builder": "^26.15.3"
   }
 }

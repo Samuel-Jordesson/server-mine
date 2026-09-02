@@ -1,0 +1,192 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Configurações</title>
+<style>
+  body { font-family: system-ui, sans-serif; background: #0f172a; color: #e2e8f0; margin: 0; padding: 24px; }
+  h2 { margin-top: 0; }
+  fieldset { border: 1px solid #334155; border-radius: 8px; margin-bottom: 16px; padding: 12px 16px; }
+  legend { padding: 0 6px; color: #94a3b8; }
+  label { display: block; margin: 10px 0 4px; font-size: 13px; color: #cbd5e1; }
+  input[type=text], input[type=password] {
+    width: 100%; box-sizing: border-box; padding: 8px 10px; border-radius: 6px;
+    border: 1px solid #334155; background: #1e293b; color: #f1f5f9; font-size: 14px;
+  }
+  .row { display: flex; gap: 10px; }
+  .row > div { flex: 1; }
+  .radio-row { display: flex; gap: 16px; margin: 8px 0; }
+  .radio-row label { display: flex; align-items: center; gap: 6px; margin: 0; }
+  button {
+    background: #22c55e; color: #052e16; border: none; border-radius: 6px;
+    padding: 10px 18px; font-weight: 600; cursor: pointer; font-size: 14px;
+  }
+  button.secondary { background: #334155; color: #e2e8f0; }
+  button.danger { background: #ef4444; color: #450a0a; }
+  .actions { display: flex; gap: 10px; margin-top: 16px; }
+  .status { margin-top: 14px; font-size: 13px; padding: 10px; border-radius: 6px; background: #1e293b; white-space: pre-wrap; min-height: 20px; }
+  .badge { display: inline-block; padding: 2px 8px; border-radius: 999px; font-size: 12px; margin-left: 8px; }
+  .badge.running { background: #14532d; color: #86efac; }
+  .badge.stopped { background: #450a0a; color: #fca5a5; }
+  .badge.pending { background: #713f12; color: #fde68a; }
+</style>
+</head>
+<body>
+  <h2>Configurações do Painel</h2>
+
+  <fieldset>
+    <legend>Onde roda o servidor?</legend>
+    <div class="radio-row">
+      <label><input type="radio" name="mode" value="local" checked> Local (neste PC)</label>
+      <label><input type="radio" name="mode" value="remote"> Remoto (URL fixa)</label>
+      <label><input type="radio" name="mode" value="aws"> AWS EC2 (ligar/desligar sob demanda)</label>
+    </div>
+
+    <div id="remoteFields" style="display:none">
+      <label>URL do painel remoto</label>
+      <input type="text" id="remoteUrl" placeholder="http://SEU-IP:3000 ou https://painel.n91.com.br">
+    </div>
+  </fieldset>
+
+  <fieldset id="awsFields" style="display:none">
+    <legend>Credenciais AWS <span id="awsBadge" class="badge stopped">desconhecido</span></legend>
+    <div class="row">
+      <div>
+        <label>Access Key ID</label>
+        <input type="text" id="awsAccessKeyId" autocomplete="off">
+      </div>
+      <div>
+        <label>Secret Access Key</label>
+        <input type="password" id="awsSecretAccessKey" autocomplete="off">
+      </div>
+    </div>
+    <div class="row">
+      <div>
+        <label>Região (ex: us-east-1)</label>
+        <input type="text" id="awsRegion" placeholder="us-east-1">
+      </div>
+      <div>
+        <label>Instance ID</label>
+        <input type="text" id="awsInstanceId" placeholder="i-0123456789abcdef0">
+      </div>
+    </div>
+    <div class="row">
+      <div>
+        <label>Porta do painel na instância</label>
+        <input type="text" id="awsPanelPort" placeholder="3000">
+      </div>
+    </div>
+    <div class="actions">
+      <button type="button" id="btnAwsStart">▶ Ligar instância</button>
+      <button type="button" id="btnAwsStop" class="danger">■ Desligar instância</button>
+      <button type="button" id="btnAwsCheck" class="secondary">Verificar status</button>
+    </div>
+  </fieldset>
+
+  <div class="actions">
+    <button type="button" id="btnSave">Salvar e conectar</button>
+    <button type="button" id="btnClose" class="secondary">Fechar</button>
+  </div>
+
+  <div id="status" class="status"></div>
+
+<script>
+  const modeRadios = document.querySelectorAll('input[name=mode]');
+  const remoteFields = document.getElementById('remoteFields');
+  const awsFields = document.getElementById('awsFields');
+  const statusEl = document.getElementById('status');
+  const awsBadge = document.getElementById('awsBadge');
+
+  function log(msg) {
+    statusEl.textContent = msg;
+  }
+
+  function updateVisibility() {
+    const mode = document.querySelector('input[name=mode]:checked').value;
+    remoteFields.style.display = mode === 'remote' ? 'block' : 'none';
+    awsFields.style.display = mode === 'aws' ? 'block' : 'none';
+  }
+  modeRadios.forEach(r => r.addEventListener('change', updateVisibility));
+
+  function setBadge(state) {
+    awsBadge.className = 'badge';
+    if (state === 'running') { awsBadge.classList.add('running'); awsBadge.textContent = 'ligada'; }
+    else if (state === 'stopped' || state === 'terminated') { awsBadge.classList.add('stopped'); awsBadge.textContent = 'desligada'; }
+    else { awsBadge.classList.add('pending'); awsBadge.textContent = state || 'desconhecido'; }
+  }
+
+  async function loadConfig() {
+    const cfg = await window.desktopAPI.getConfig();
+    document.querySelector(`input[name=mode][value="${cfg.mode}"]`).checked = true;
+    document.getElementById('remoteUrl').value = cfg.remoteUrl || '';
+    document.getElementById('awsAccessKeyId').value = cfg.awsAccessKeyId || '';
+    document.getElementById('awsSecretAccessKey').value = cfg.awsSecretAccessKey || '';
+    document.getElementById('awsRegion').value = cfg.awsRegion || 'us-east-1';
+    document.getElementById('awsInstanceId').value = cfg.awsInstanceId || '';
+    document.getElementById('awsPanelPort').value = cfg.awsPanelPort || 3000;
+    updateVisibility();
+  }
+
+  function collectConfig() {
+    return {
+      mode: document.querySelector('input[name=mode]:checked').value,
+      remoteUrl: document.getElementById('remoteUrl').value.trim(),
+      awsAccessKeyId: document.getElementById('awsAccessKeyId').value.trim(),
+      awsSecretAccessKey: document.getElementById('awsSecretAccessKey').value.trim(),
+      awsRegion: document.getElementById('awsRegion').value.trim() || 'us-east-1',
+      awsInstanceId: document.getElementById('awsInstanceId').value.trim(),
+      awsPanelPort: parseInt(document.getElementById('awsPanelPort').value, 10) || 3000
+    };
+  }
+
+  document.getElementById('btnSave').addEventListener('click', async () => {
+    const cfg = collectConfig();
+    await window.desktopAPI.saveConfig(cfg);
+    log('Configuração salva. Conectando...');
+    const result = await window.desktopAPI.connect();
+    log(result.message);
+  });
+
+  document.getElementById('btnClose').addEventListener('click', () => window.close());
+
+  document.getElementById('btnAwsStart').addEventListener('click', async () => {
+    await window.desktopAPI.saveConfig(collectConfig());
+    log('Ligando instância AWS... isso pode levar 1-2 minutos.');
+    setBadge('pending');
+    try {
+      const info = await window.desktopAPI.awsStart();
+      setBadge(info.state);
+      log(`Instância ligada! IP público: ${info.publicIp}`);
+    } catch (err) {
+      log('Erro: ' + err.message);
+    }
+  });
+
+  document.getElementById('btnAwsStop').addEventListener('click', async () => {
+    await window.desktopAPI.saveConfig(collectConfig());
+    log('Desligando instância AWS...');
+    try {
+      const info = await window.desktopAPI.awsStop();
+      setBadge(info.state);
+      log('Instância desligando/desligada.');
+    } catch (err) {
+      log('Erro: ' + err.message);
+    }
+  });
+
+  document.getElementById('btnAwsCheck').addEventListener('click', async () => {
+    await window.desktopAPI.saveConfig(collectConfig());
+    log('Verificando status...');
+    try {
+      const info = await window.desktopAPI.awsStatus();
+      setBadge(info.state);
+      log(`Status: ${info.state}${info.publicIp ? ' | IP: ' + info.publicIp : ''}`);
+    } catch (err) {
+      log('Erro: ' + err.message);
+    }
+  });
+
+  loadConfig();
+</script>
+</body>
+</html>

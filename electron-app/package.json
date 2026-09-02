@@ -1,0 +1,28 @@
+{
+  "name": "painel-minecraft-desktop",
+  "version": "1.0.0",
+  "description": "Painel de controle do servidor Minecraft, como app desktop",
+  "main": "main.js",
+  "author": "",
+  "license": "ISC",
+  "build": {
+    "appId": "com.n91.painelminecraft",
+    "productName": "Painel Minecraft",
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "main.js",
+      "preload.js",
+      "settings.html",
+      "config-store.js",
+      "aws-ec2.js",
+      "icon.png"
+    ],
+    "extraResources": [],
+    "linux": {
+      "target": ["AppImage"],
+      "category": "Game"
+    }
+  }
+}
