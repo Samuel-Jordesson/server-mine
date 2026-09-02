@@ -310,7 +310,7 @@
                 <h3 class="text-[13px] text-muted">Mundo</h3>
                 <span class="material-symbols-outlined text-primary-fixed-dim">public</span>
             </div>
-            <button onclick="resetWorld()" class="w-full py-3 bg-white border border-error text-error font-bold text-xs uppercase rounded-lg transition-all hover:bg-error hover:text-white active:scale-95">
+            <button onclick="resetWorld()" class="w-full py-2.5 bg-panel border border-hairline text-error font-medium text-[13px] rounded-lg transition-colors hover:bg-error/5 hover:border-error/30">
                 Resetar Mundo
             </button>
         </div>
@@ -378,7 +378,7 @@
     <div class="bg-panel border border-hairline p-5 rounded-xl">
         <div class="flex items-center justify-between mb-6">
             <h3 class="text-[13px] text-muted">Histórico de Uso (últimos minutos)</h3>
-            <div class="flex items-center gap-4 text-[11px] font-bold uppercase tracking-widest">
+            <div class="flex items-center gap-4 text-xs text-muted">
                 <span class="flex items-center gap-1.5 text-muted"><span class="w-2.5 h-2.5 rounded-full" style="background:#486800"></span>CPU</span>
                 <span class="flex items-center gap-1.5 text-muted"><span class="w-2.5 h-2.5 rounded-full" style="background:#4e635e"></span>RAM</span>
             </div>
@@ -419,7 +419,7 @@
         <div class="mt-8 flex items-center gap-4 pt-6 border-t border-hairline">
             <span class="text-primary font-black">$</span>
             <input id="command-input" onkeypress="handleCommandKey(event)" class="bg-transparent border-none p-0 flex-1 focus:ring-0 text-ink font-semibold placeholder:text-muted/40" placeholder="Digite um comando..." type="text"/>
-            <button onclick="sendCommand()" class="px-4 py-1.5 bg-primary-container text-on-primary-fixed rounded-lg font-bold text-xs uppercase tracking-tight">Enviar</button>
+            <button onclick="sendCommand()" class="px-3.5 py-1.5 bg-primary-container text-on-primary-fixed rounded-lg font-medium text-[13px]">Enviar</button>
         </div>
     </div>
 </section>
@@ -461,7 +461,7 @@
             <p class="text-sm text-muted">Crie um mundo novo do zero ou envie um mundo já existente em um arquivo .zip.</p>
         </div>
         <div class="flex flex-wrap gap-3">
-            <button onclick="openCreateWorldModal()" class="flex items-center gap-2 px-5 py-2.5 bg-primary-container text-on-primary-fixed rounded-lg font-bold text-xs uppercase transition-all hover:brightness-95 active:scale-95">
+            <button onclick="openCreateWorldModal()" class="flex items-center gap-2 px-4 py-2 bg-primary-container text-on-primary-fixed rounded-lg font-medium text-[13px] transition-colors hover:brightness-95">
                 <span class="material-symbols-outlined text-lg">add_circle</span>
                 Criar Novo Mundo
             </button>
@@ -478,7 +478,7 @@
             <p class="text-sm font-bold text-ink">Resetar Mundo</p>
             <p class="text-sm text-muted">Apaga a pasta do mundo atual. Um novo mundo será gerado na próxima inicialização.</p>
         </div>
-        <button onclick="resetWorld()" class="shrink-0 px-5 py-3 bg-white border border-error text-error font-bold text-xs uppercase rounded-lg transition-all hover:bg-error hover:text-white active:scale-95">
+        <button onclick="resetWorld()" class="shrink-0 px-4 py-2 bg-panel border border-hairline text-error font-medium text-[13px] rounded-lg transition-colors hover:bg-error/5 hover:border-error/30">
             Resetar Mundo
         </button>
     </div>
@@ -496,7 +496,7 @@
             <p class="text-sm font-bold text-ink">Enviar Mod/Plugin</p>
             <p class="text-sm text-muted">Envie um arquivo .jar para instalar um novo mod/plugin no servidor.</p>
         </div>
-        <label class="self-start flex items-center gap-2 px-5 py-2.5 bg-primary-container text-on-primary-fixed rounded-lg font-bold text-xs uppercase cursor-pointer transition-all hover:brightness-95 active:scale-95">
+        <label class="self-start flex items-center gap-2 px-4 py-2 bg-primary-container text-on-primary-fixed rounded-lg font-medium text-[13px] cursor-pointer transition-colors hover:brightness-95">
             <span class="material-symbols-outlined text-lg">upload</span>
             Enviar Mod (.jar)
             <input type="file" accept=".jar" class="hidden" id="plugin-jar-input" onchange="handlePluginFileSelected(event)"/>
@@ -564,7 +564,7 @@
     <div class="bg-panel border border-hairline p-5 rounded-xl max-w-xl flex flex-col gap-4">
         <div class="flex items-center justify-between">
             <h3 class="text-[13px] text-muted">Instância AWS</h3>
-            <span class="px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-widest" id="aws-state-badge">desconhecido</span>
+            <span class="px-2 py-0.5 rounded-md text-[11px] font-medium" id="aws-state-badge">desconhecido</span>
         </div>
         <p class="text-sm text-muted">Ligue a instância só quando for jogar e desligue depois, pra economizar. O app espera a instância ficar pronta e já conecta o painel automaticamente.</p>
         <div class="flex gap-3">

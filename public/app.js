@@ -1146,7 +1146,7 @@ async function requestPlayerList() {
 function setAwsBadge(state) {
     const badge = document.getElementById('aws-state-badge');
     if (!badge) return;
-    badge.className = 'px-2 py-0.5 rounded-full text-[10px] font-bold ';
+    badge.className = 'px-2 py-0.5 rounded-md text-[11px] font-medium';
     if (state === 'running') {
         badge.classList.add('bg-green-100', 'text-green-700');
         badge.textContent = 'ligada';
