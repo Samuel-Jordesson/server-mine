@@ -1,5 +1,6 @@
 const { app, BrowserWindow, Menu, shell, dialog, ipcMain } = require('electron');
 const path = require('path');
+const fs = require('fs');
 const http = require('http');
 const { loadConfig, saveConfig } = require('./config-store');
 const awsEc2 = require('./aws-ec2');
@@ -21,6 +22,12 @@ function currentConfig() {
 // Já tem tudo preenchido pra ligar a instância sem precisar passar pela tela de Configurações?
 function hasAwsConfig(cfg) {
     return !!(cfg.awsAccessKeyId && cfg.awsSecretAccessKey && cfg.awsInstanceId && cfg.awsRegion);
+}
+
+// O web-server.js faz parte do servidor, não do painel: ele não vai junto no app
+// empacotado. Então o modo "local" só existe quando se roda pelo código-fonte.
+function localServerAvailable() {
+    return fs.existsSync(path.join(__dirname, '..', 'web-server.js'));
 }
 
 // Sobe o web-server.js (painel) dentro do próprio processo do Electron, só no modo "local"
@@ -73,7 +80,7 @@ function createWindow() {
         height: 800,
         minWidth: 900,
         minHeight: 600,
-        icon: path.join(__dirname, 'icon.png'),
+        icon: path.join(__dirname, 'build', 'icon.png'),
         title: 'Painel Minecraft',
         backgroundColor: '#0f172a',
         autoHideMenuBar: true,
@@ -126,6 +133,9 @@ async function connectToPanel() {
     let targetUrl;
 
     if (cfg.mode === 'local') {
+        if (!localServerAvailable()) {
+            throw new Error('Este app não inclui o servidor. Escolha "Remoto" ou "AWS EC2" em Configurações.');
+        }
         startLocalWebServer(3000);
         targetUrl = 'http://localhost:3000';
     } else if (cfg.mode === 'remote') {
@@ -213,6 +223,10 @@ app.whenReady().then(async () => {
         } else {
             openSettingsWindow();
         }
+    } else if (cfg.mode === 'local' && !localServerAvailable()) {
+        // Primeira abertura do app instalado: não há servidor local para usar,
+        // então vai direto para as Configurações em vez de falhar por timeout.
+        openSettingsWindow();
     } else {
         try {
             const result = await connectToPanel();

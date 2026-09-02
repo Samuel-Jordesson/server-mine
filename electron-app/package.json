@@ -3,13 +3,27 @@
   "version": "1.0.0",
   "description": "Painel de controle do servidor Minecraft, como app desktop",
   "main": "main.js",
-  "author": "",
+  "author": "Samuel Jordesson <murucupiagencia@gmail.com>",
   "license": "ISC",
+  "scripts": {
+    "build:linux": "electron-builder --linux --config.directories.output=dist/linux",
+    "build:win": "electron-builder --win --config.directories.output=dist/windows",
+    "build:all": "npm run build:linux && npm run build:win"
+  },
+  "dependencies": {
+    "@aws-sdk/client-ec2": "^3.1124.0"
+  },
+  "devDependencies": {
+    "electron": "^44.1.1",
+    "electron-builder": "^26.15.3"
+  },
   "build": {
     "appId": "com.n91.painelminecraft",
     "productName": "Painel Minecraft",
+    "copyright": "ByteForge",
     "directories": {
-      "output": "dist"
+      "output": "dist",
+      "buildResources": "build"
     },
     "files": [
       "main.js",
@@ -18,12 +32,41 @@
       "start-screen.html",
       "config-store.js",
       "aws-ec2.js",
-      "icon.png"
+      "icon.png",
+      "build/icon.png"
     ],
-    "extraResources": [],
     "linux": {
-      "target": ["AppImage"],
-      "category": "Game"
+      "icon": "build/icon.png",
+      "target": [
+        "AppImage",
+        "deb"
+      ],
+      "category": "Game",
+      "artifactName": "PainelMinecraft-${version}-linux-${arch}.${ext}",
+      "maintainer": "Samuel Jordesson <murucupiagencia@gmail.com>",
+      "synopsis": "Painel de controle do servidor Minecraft",
+      "syncDesktopName": true,
+      "executableArgs": [
+        "--no-sandbox",
+        "--disable-gpu",
+        "--ozone-platform=x11"
+      ]
+    },
+    "win": {
+      "icon": "build/icon.png",
+      "target": [
+        "nsis",
+        "portable"
+      ],
+      "artifactName": "PainelMinecraft-${version}-windows-${arch}.${ext}"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "shortcutName": "Painel Minecraft"
     }
-  }
+  },
+  "homepage": "https://github.com/Samuel-Jordesson/server-mine",
+  "desktopName": "painel-minecraft.desktop"
 }

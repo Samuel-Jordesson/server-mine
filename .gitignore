@@ -24,3 +24,9 @@ server/.structures-cache.json
 # Ícones extraídos do Minecraft (texturas da Mojang: não redistribuímos no repo).
 # Gere com: bash extract-map-icons.sh
 public/map-icons/
+
+# Builds do app desktop (grandes demais para o GitHub; gere com npm run build:linux/win)
+electron-app/dist/
+electron-app/node_modules/
+builds/**
+!builds/LEIA-ME.md
