@@ -428,8 +428,16 @@ const viewTitles = {
     mundo: 'Mundo',
     mods: 'Mods',
     jogadores: 'Jogadores',
-    servidor: 'Servidor'
+    servidor: 'Servidor',
+    configuracoes: 'Configurações'
 };
+
+// A aba Configurações só existe quando o painel roda dentro do app desktop Electron
+// (window.desktopAPI é injetado pelo preload.js do Electron; não existe num navegador comum)
+if (window.desktopAPI) {
+    const navConfig = document.getElementById('nav-configuracoes');
+    if (navConfig) navConfig.style.display = '';
+}
 
 function switchView(view) {
     document.querySelectorAll('.view').forEach(el => el.classList.remove('active'));
@@ -997,4 +1005,64 @@ function updatePlayerCountDisplay() {
 async function requestPlayerList() {
     // Tentar obter lista de jogadores via comando
     await sendCommandToServer('list');
+}
+
+// Aba Configurações (AWS ligar/desligar)
+function setAwsBadge(state) {
+    const badge = document.getElementById('aws-state-badge');
+    if (!badge) return;
+    badge.className = 'px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-widest';
+    if (state === 'running') {
+        badge.classList.add('bg-green-100', 'text-green-700');
+        badge.textContent = 'ligada';
+    } else if (state === 'stopped' || state === 'terminated') {
+        badge.classList.add('bg-red-100', 'text-red-700');
+        badge.textContent = 'desligada';
+    } else {
+        badge.classList.add('bg-yellow-100', 'text-yellow-700');
+        badge.textContent = state || 'desconhecido';
+    }
+}
+
+function setAwsStatusMsg(msg) {
+    const el = document.getElementById('aws-status-msg');
+    if (el) el.textContent = msg;
+}
+
+async function awsStartInstance() {
+    if (!window.desktopAPI) return;
+    setAwsStatusMsg('Ligando instância... isso pode levar 1-2 minutos.');
+    setAwsBadge('pending');
+    try {
+        const info = await window.desktopAPI.awsStart();
+        setAwsBadge(info.state);
+        setAwsStatusMsg(`Instância ligada! IP público: ${info.publicIp}. Reconectando o painel...`);
+        await window.desktopAPI.connect();
+    } catch (err) {
+        setAwsStatusMsg('Erro: ' + err.message);
+    }
+}
+
+async function awsStopInstance() {
+    if (!window.desktopAPI) return;
+    setAwsStatusMsg('Desligando instância...');
+    try {
+        const info = await window.desktopAPI.awsStop();
+        setAwsBadge(info.state);
+        setAwsStatusMsg('Instância desligando/desligada.');
+    } catch (err) {
+        setAwsStatusMsg('Erro: ' + err.message);
+    }
+}
+
+async function awsCheckStatus() {
+    if (!window.desktopAPI) return;
+    setAwsStatusMsg('Verificando status...');
+    try {
+        const info = await window.desktopAPI.awsStatus();
+        setAwsBadge(info.state);
+        setAwsStatusMsg(`Status: ${info.state}${info.publicIp ? ' | IP: ' + info.publicIp : ''}`);
+    } catch (err) {
+        setAwsStatusMsg('Erro: ' + err.message);
+    }
 }

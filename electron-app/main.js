@@ -71,11 +71,14 @@ function createWindow() {
         icon: path.join(__dirname, 'icon.png'),
         title: 'Painel Minecraft',
         backgroundColor: '#0f172a',
+        autoHideMenuBar: true,
         webPreferences: {
+            preload: path.join(__dirname, 'preload.js'),
             nodeIntegration: false,
             contextIsolation: true
         }
     });
+    mainWindow.setMenuBarVisibility(false);
 
     mainWindow.webContents.setWindowOpenHandler(({ url }) => {
         shell.openExternal(url);

@@ -410,6 +410,7 @@ app.get('/api/status', async (req, res) => {
     const isRunning = await isPortOpen(javaPort);
 
     const levelName = props['level-name'] || 'world';
+    const publicIp = await getPublicIp();
 
     res.json({
         running: isRunning,
@@ -422,7 +423,7 @@ app.get('/api/status', async (req, res) => {
         worldExists: fs.existsSync(path.join(serverDir, levelName)),
         javaPort,
         bedrockPort: readBedrockPort(),
-        localIp: getLocalIP()
+        localIp: publicIp || getLocalIP()
     });
 });
 
@@ -956,7 +957,7 @@ io.on('connection', (socket) => {
 // Iniciar monitoramento de logs
 watchLogs();
 
-// Função para obter o IP local
+// Função para obter o IP local (da placa de rede - só é o IP "real" quando NÃO está atrás de NAT)
 function getLocalIP() {
     const interfaces = os.networkInterfaces();
     for (const name of Object.keys(interfaces)) {
@@ -967,6 +968,64 @@ function getLocalIP() {
         }
     }
     return 'localhost';
+}
+
+// Em provedores de nuvem (AWS, etc) a placa de rede só enxerga o IP privado (172.31.x.x),
+// então buscamos o IP público real via metadata service da AWS (IMDSv2). Fica em cache
+// porque não muda durante a execução da instância, e falha silenciosamente fora da AWS.
+let cachedPublicIp = null;
+let publicIpFetchedAt = 0;
+
+async function getPublicIp() {
+    const now = Date.now();
+    if (cachedPublicIp && (now - publicIpFetchedAt) < 5 * 60 * 1000) {
+        return cachedPublicIp;
+    }
+    try {
+        const http = require('http');
+        const tokenReq = await new Promise((resolve, reject) => {
+            const req = http.request({
+                host: '169.254.169.254',
+                path: '/latest/api/token',
+                method: 'PUT',
+                headers: { 'X-aws-ec2-metadata-token-ttl-seconds': '21600' },
+                timeout: 1000
+            }, (res) => {
+                let data = '';
+                res.on('data', (c) => data += c);
+                res.on('end', () => resolve(data));
+            });
+            req.on('error', reject);
+            req.on('timeout', () => req.destroy(new Error('timeout')));
+            req.end();
+        });
+
+        const publicIp = await new Promise((resolve, reject) => {
+            const req = http.request({
+                host: '169.254.169.254',
+                path: '/latest/meta-data/public-ipv4',
+                method: 'GET',
+                headers: { 'X-aws-ec2-metadata-token': tokenReq },
+                timeout: 1000
+            }, (res) => {
+                let data = '';
+                res.on('data', (c) => data += c);
+                res.on('end', () => resolve(data.trim()));
+            });
+            req.on('error', reject);
+            req.on('timeout', () => req.destroy(new Error('timeout')));
+            req.end();
+        });
+
+        if (publicIp && /^\d+\.\d+\.\d+\.\d+$/.test(publicIp)) {
+            cachedPublicIp = publicIp;
+            publicIpFetchedAt = now;
+            return publicIp;
+        }
+    } catch (err) {
+        // Não é uma instância AWS (ou sem IP público) - segue com o IP local mesmo
+    }
+    return null;
 }
 
 server.listen(PORT, '0.0.0.0', () => {

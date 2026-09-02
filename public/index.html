@@ -172,6 +172,10 @@
 <span class="material-symbols-outlined">group</span>
             Jogadores
         </a>
+<a class="nav-item flex items-center gap-3 text-white/60 hover:text-white px-4 py-3 transition-colors mx-3 rounded-lg hover:bg-white/5 cursor-pointer" data-view="configuracoes" id="nav-configuracoes" onclick="switchView('configuracoes')" style="display:none">
+<span class="material-symbols-outlined">settings</span>
+            Configurações
+        </a>
 </nav>
 </aside>
 <!-- TopNavBar -->
@@ -522,6 +526,29 @@
         <div id="players-list" class="divide-y divide-surface-container-low">
             <div class="p-padding-card text-on-surface-variant text-sm">Nenhum jogador online</div>
         </div>
+    </div>
+</section>
+
+<!-- Configurações (só aparece dentro do app desktop Electron) -->
+<section id="view-configuracoes" class="view space-y-6">
+    <div class="bg-surface-container-lowest border border-surface-variant p-padding-card rounded-xl shadow-sm max-w-xl flex flex-col gap-4">
+        <div class="flex items-center justify-between">
+            <h3 class="text-xs font-bold text-on-surface-variant uppercase tracking-widest">Instância AWS</h3>
+            <span class="px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-widest" id="aws-state-badge">desconhecido</span>
+        </div>
+        <p class="text-sm text-on-surface-variant">Ligue a instância só quando for jogar e desligue depois, pra economizar. O app espera a instância ficar pronta e já conecta o painel automaticamente.</p>
+        <div class="flex gap-3">
+            <button onclick="awsStartInstance()" class="flex items-center gap-2 px-6 py-2.5 bg-primary-container text-on-primary-fixed border border-primary-container rounded-xl font-bold text-sm transition-all hover:brightness-95 active:scale-95 shadow-sm">
+                <span class="material-symbols-outlined text-[18px]">play_arrow</span> Ligar instância
+            </button>
+            <button onclick="awsStopInstance()" class="flex items-center gap-2 px-6 py-2.5 bg-red-100 text-red-700 border border-red-200 rounded-xl font-bold text-sm transition-all hover:brightness-95 active:scale-95 shadow-sm">
+                <span class="material-symbols-outlined text-[18px]">stop</span> Desligar instância
+            </button>
+            <button onclick="awsCheckStatus()" class="flex items-center gap-2 px-6 py-2.5 bg-surface-container text-on-surface border border-surface-variant rounded-xl font-bold text-sm transition-all hover:brightness-95 active:scale-95 shadow-sm">
+                <span class="material-symbols-outlined text-[18px]">refresh</span> Verificar status
+            </button>
+        </div>
+        <div id="aws-status-msg" class="text-xs text-on-surface-variant min-h-[16px]"></div>
     </div>
 </section>
 
