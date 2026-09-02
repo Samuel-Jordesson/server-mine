@@ -213,21 +213,22 @@
                 <h3 class="text-xs font-bold text-on-surface-variant uppercase tracking-widest">Conectar via Java Edition</h3>
                 <span class="material-symbols-outlined text-primary-fixed-dim">computer</span>
             </div>
-            <div class="grid grid-cols-2 gap-3">
-                <div class="flex flex-col gap-1">
-                    <span class="text-[11px] font-bold text-on-surface-variant uppercase tracking-widest">Endereço</span>
+            <div class="flex flex-col gap-1">
+                <span class="text-[11px] font-bold text-on-surface-variant uppercase tracking-widest">Endereço</span>
+                <div class="flex items-center gap-2">
                     <span class="text-lg font-black text-on-surface truncate" id="java-connect-ip">-</span>
-                </div>
-                <div class="flex flex-col gap-1">
-                    <span class="text-[11px] font-bold text-on-surface-variant uppercase tracking-widest">Porta</span>
-                    <span class="text-lg font-black text-on-surface" id="java-connect-port">-</span>
+                    <button onclick="copyElementText('java-connect-ip', this)" title="Copiar endereço" class="shrink-0 text-on-surface-variant hover:text-primary transition-colors">
+                        <span class="material-symbols-outlined text-[18px]">content_copy</span>
+                    </button>
                 </div>
             </div>
-            <span class="text-[11px] text-on-surface-variant" id="java-connect-alt"></span>
-            <button onclick="copyConnectInfo('java')" class="self-start flex items-center gap-1.5 text-xs font-bold text-primary uppercase tracking-widest">
-                <span class="material-symbols-outlined text-sm" id="java-copy-icon">content_copy</span>
-                <span id="java-copy-label">Copiar endereço</span>
-            </button>
+            <div class="flex items-center gap-1.5" id="java-alt-row">
+                <span class="text-[11px] text-on-surface-variant">Ou direto pelo IP: <span id="java-connect-alt">-</span></span>
+                <button onclick="copyElementText('java-connect-alt', this)" title="Copiar IP" class="shrink-0 text-on-surface-variant hover:text-primary transition-colors">
+                    <span class="material-symbols-outlined text-[16px]">content_copy</span>
+                </button>
+            </div>
+            <span class="hidden" id="java-connect-port">-</span>
         </div>
         <div class="bg-surface-container-lowest border border-surface-variant p-padding-card rounded-xl flex flex-col gap-4 transition-shadow">
             <div class="flex items-center justify-between">
@@ -237,18 +238,29 @@
             <div class="grid grid-cols-2 gap-3">
                 <div class="flex flex-col gap-1">
                     <span class="text-[11px] font-bold text-on-surface-variant uppercase tracking-widest">Endereço</span>
-                    <span class="text-lg font-black text-on-surface truncate" id="bedrock-connect-ip">-</span>
+                    <div class="flex items-center gap-2">
+                        <span class="text-lg font-black text-on-surface truncate" id="bedrock-connect-ip">-</span>
+                        <button onclick="copyElementText('bedrock-connect-ip', this)" title="Copiar endereço" class="shrink-0 text-on-surface-variant hover:text-primary transition-colors">
+                            <span class="material-symbols-outlined text-[18px]">content_copy</span>
+                        </button>
+                    </div>
                 </div>
                 <div class="flex flex-col gap-1">
                     <span class="text-[11px] font-bold text-on-surface-variant uppercase tracking-widest">Porta</span>
-                    <span class="text-lg font-black text-on-surface" id="bedrock-connect-port">-</span>
+                    <div class="flex items-center gap-2">
+                        <span class="text-lg font-black text-on-surface" id="bedrock-connect-port">-</span>
+                        <button onclick="copyElementText('bedrock-connect-port', this)" title="Copiar porta" class="shrink-0 text-on-surface-variant hover:text-primary transition-colors">
+                            <span class="material-symbols-outlined text-[18px]">content_copy</span>
+                        </button>
+                    </div>
                 </div>
             </div>
-            <span class="text-[11px] text-on-surface-variant" id="bedrock-connect-alt"></span>
-            <button onclick="copyConnectInfo('bedrock')" class="self-start flex items-center gap-1.5 text-xs font-bold text-primary uppercase tracking-widest">
-                <span class="material-symbols-outlined text-sm" id="bedrock-copy-icon">content_copy</span>
-                <span id="bedrock-copy-label">Copiar endereço</span>
-            </button>
+            <div class="flex items-center gap-1.5" id="bedrock-alt-row">
+                <span class="text-[11px] text-on-surface-variant">Ou direto pelo IP: <span id="bedrock-connect-alt">-</span></span>
+                <button onclick="copyElementText('bedrock-connect-alt', this)" title="Copiar IP" class="shrink-0 text-on-surface-variant hover:text-primary transition-colors">
+                    <span class="material-symbols-outlined text-[16px]">content_copy</span>
+                </button>
+            </div>
         </div>
     </div>
 

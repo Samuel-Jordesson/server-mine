@@ -119,14 +119,18 @@ async function updateStatus() {
 
         // Preferimos o domínio: o IP da instância muda toda vez que ela é religada
         const address = status.domain || status.localIp;
-        const altText = status.domain && status.localIp ? `Ou direto pelo IP: ${status.localIp}` : '';
+        const hasDomain = Boolean(status.domain && status.localIp);
 
         document.getElementById('java-connect-ip').textContent = address;
         document.getElementById('java-connect-port').textContent = status.javaPort;
-        document.getElementById('java-connect-alt').textContent = altText;
         document.getElementById('bedrock-connect-ip').textContent = address;
         document.getElementById('bedrock-connect-port').textContent = status.bedrockPort;
-        document.getElementById('bedrock-connect-alt').textContent = altText;
+
+        // A linha do IP direto só faz sentido quando o endereço principal é um domínio
+        document.getElementById('java-connect-alt').textContent = `${status.localIp}:${status.javaPort}`;
+        document.getElementById('bedrock-connect-alt').textContent = `${status.localIp}:${status.bedrockPort}`;
+        document.getElementById('java-alt-row').style.display = hasDomain ? '' : 'none';
+        document.getElementById('bedrock-alt-row').style.display = hasDomain ? '' : 'none';
 
         // Atualizar contagem de jogadores
         updatePlayerCountDisplay();
@@ -439,21 +443,22 @@ async function copyToClipboard(text) {
     }
 }
 
-async function copyConnectInfo(type) {
-    const address = document.getElementById(`${type}-connect-ip`).textContent;
-    const port = document.getElementById(`${type}-connect-port`).textContent;
-    const copied = await copyToClipboard(`${address}:${port}`);
+// Copia o texto de um elemento e dá retorno visual no próprio botão clicado
+async function copyElementText(elementId, button) {
+    const source = document.getElementById(elementId);
+    if (!source) return;
 
-    const icon = document.getElementById(`${type}-copy-icon`);
-    const label = document.getElementById(`${type}-copy-label`);
-    if (!icon || !label) return;
+    const copied = await copyToClipboard(source.textContent.trim());
+
+    const icon = button && button.querySelector('.material-symbols-outlined');
+    if (!icon) return;
 
     icon.textContent = copied ? 'check' : 'error';
-    label.textContent = copied ? 'Copiado!' : 'Não foi possível copiar';
+    button.classList.add(copied ? 'text-primary' : 'text-error');
     setTimeout(() => {
         icon.textContent = 'content_copy';
-        label.textContent = 'Copiar endereço';
-    }, 2000);
+        button.classList.remove('text-primary', 'text-error');
+    }, 1500);
 }
 
 // Atualizar status a cada 5 segundos
