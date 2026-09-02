@@ -423,6 +423,7 @@ updateSystemInfo();
 const viewTitles = {
     dashboard: 'Painel de Controle',
     mundo: 'Mundo',
+    mapa: 'Mapa',
     mods: 'Mods',
     jogadores: 'Jogadores',
     servidor: 'Servidor',
@@ -448,6 +449,42 @@ function switchView(view) {
     if (view === 'mods') loadPlugins();
     if (view === 'mundo') loadWorldInfo();
     if (view === 'jogadores') renderPlayersList();
+    if (view === 'mapa') loadMap();
+}
+
+// Aba Mapa (squaremap)
+function loadMap() {
+    const frame = document.getElementById('map-frame');
+    // só carrega na primeira vez que a aba é aberta, pra não recarregar o mapa a cada troca de aba
+    if (frame.dataset.loaded) return;
+    frame.src = '/mapa/';
+    frame.dataset.loaded = '1';
+}
+
+async function renderMap(type) {
+    const statusEl = document.getElementById('map-status');
+    const command = type === 'full' ? 'squaremap fullrender world' : 'squaremap radiusrender world 1000';
+
+    statusEl.textContent = 'Enviando comando de renderização...';
+    try {
+        const response = await fetch('/api/command', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ command })
+        });
+        const result = await response.json();
+
+        if (response.ok) {
+            statusEl.textContent = type === 'full'
+                ? 'Renderizando o mundo todo em segundo plano. Pode levar vários minutos - recarregue o mapa depois.'
+                : 'Renderizando 1000 blocos ao redor do spawn. Aguarde alguns instantes e recarregue o mapa.';
+        } else {
+            statusEl.textContent = 'Erro: ' + (result.error || 'falha ao enviar comando');
+        }
+    } catch (error) {
+        console.error('Erro ao renderizar mapa:', error);
+        statusEl.textContent = 'Erro ao enviar comando de renderização';
+    }
 }
 
 // Aba Mods

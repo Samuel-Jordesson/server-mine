@@ -162,6 +162,10 @@
 <span class="material-symbols-outlined">public</span>
             Mundo
         </a>
+<a class="nav-item flex items-center gap-3 text-white/60 hover:text-white px-4 py-3 transition-colors mx-3 rounded-lg hover:bg-white/5 cursor-pointer" data-view="mapa" onclick="switchView('mapa')">
+<span class="material-symbols-outlined">map</span>
+            Mapa
+        </a>
 <a class="nav-item flex items-center gap-3 text-white/60 hover:text-white px-4 py-3 transition-colors mx-3 rounded-lg hover:bg-white/5 cursor-pointer" data-view="mods" onclick="switchView('mods')">
 <span class="material-symbols-outlined">extension</span>
             Mods
@@ -510,6 +514,25 @@
         <div id="players-list" class="divide-y divide-surface-container-low">
             <div class="p-padding-card text-on-surface-variant text-sm">Nenhum jogador online</div>
         </div>
+    </div>
+</section>
+
+<!-- Mapa -->
+<section id="view-mapa" class="view space-y-4">
+    <div class="flex items-center justify-between gap-4 flex-wrap">
+        <p class="text-sm text-on-surface-variant">Mapa do mundo real do servidor, com a posição dos jogadores ao vivo. Só aparece o que já foi gerado/explorado.</p>
+        <div class="flex gap-2">
+            <button onclick="renderMap('radius')" class="flex items-center gap-2 px-4 py-2 bg-surface-container text-on-surface border border-surface-variant rounded-xl font-bold text-xs uppercase transition-all hover:brightness-95 active:scale-95">
+                <span class="material-symbols-outlined text-[18px]">my_location</span> Renderizar ao redor do spawn
+            </button>
+            <button onclick="renderMap('full')" class="flex items-center gap-2 px-4 py-2 bg-primary-container text-on-primary-fixed border border-primary-container rounded-xl font-bold text-xs uppercase transition-all hover:brightness-95 active:scale-95">
+                <span class="material-symbols-outlined text-[18px]">refresh</span> Renderizar mundo todo
+            </button>
+        </div>
+    </div>
+    <div id="map-status" class="text-xs text-on-surface-variant min-h-[16px]"></div>
+    <div class="bg-surface-container-lowest border border-surface-variant rounded-xl overflow-hidden">
+        <iframe id="map-frame" src="about:blank" class="w-full block" style="height:calc(100vh - 260px);min-height:420px;border:0"></iframe>
     </div>
 </section>
 

@@ -28,6 +28,17 @@ const upload = multer({ dest: uploadsDir });
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
 
+// Mapa do mundo: o squaremap grava os tiles e o JSON dos jogadores nessa pasta.
+// Servimos ela pelo próprio painel para não precisar abrir outra porta no firewall/AWS.
+// Os .json (posição dos jogadores) não podem ficar em cache, senão o mapa "congela".
+app.use('/mapa', express.static(path.join(serverDir, 'plugins', 'squaremap', 'web'), {
+    setHeaders: (res, filePath) => {
+        if (filePath.endsWith('.json')) {
+            res.setHeader('Cache-Control', 'no-store');
+        }
+    }
+}));
+
 // Variável para armazenar o processo do servidor (só existe se FOMOS nós que iniciamos;
 // se o servidor foi iniciado externamente via "npm run dev", isso fica null mesmo rodando)
 let serverProcess = null;
