@@ -178,10 +178,13 @@ function buildStructureLayers() {
             .map(s => ({
                 type: 'icon',
                 point: { x: s.x, z: s.z },
-                size: { x: 20, z: 20 },
-                anchor: { x: 10, z: 10 },
-                tooltip_anchor: { x: 0, z: -12 },
-                icon: `painel-${layer.id}`,
+                size: { x: 24, z: 24 },
+                anchor: { x: 12, z: 12 },
+                tooltip_anchor: { x: 0, z: -14 },
+                // Cada estrutura tem seu próprio ícone, com o nome curto do tipo
+                // (minecraft:village_plains -> village_plains), igual aos arquivos
+                // gerados pelo extract-map-icons.sh
+                icon: `painel-${s.type.replace('minecraft:', '')}`,
                 tooltip: `${layer.types[s.type]}<br>${s.x}, ${s.z}`
             }));
 
@@ -219,18 +222,45 @@ app.post('/api/map/structures/scan', async (req, res) => {
 });
 
 // Ícones das estruturas. O frontend do squaremap monta a URL como
-// images/icon/registered/<nome>.png; servimos SVG aqui (o navegador respeita o
-// Content-Type, não a extensão), assim não precisamos gravar nada na pasta do plugin.
+// images/icon/registered/<nome>.png, então respondemos nela diretamente - assim
+// nada precisa ser gravado na pasta que o plugin gerencia.
+//
+// Preferimos as texturas do próprio Minecraft (geradas pelo extract-map-icons.sh).
+// Se elas não existirem, caímos no ícone SVG da categoria, e o mapa segue usável.
 app.get('/mapa/images/icon/registered/:file', (req, res, next) => {
-    const layer = STRUCTURE_LAYERS.find(l => `painel-${l.id}.png` === req.params.file);
+    const file = path.basename(req.params.file);
+    if (!file.startsWith('painel-')) return next();
+
+    const name = file.replace(/^painel-/, '').replace(/\.png$/, '');
+    res.setHeader('Cache-Control', 'public, max-age=86400');
+
+    const texture = path.join(__dirname, 'public', 'map-icons', `${name}.png`);
+    if (fs.existsSync(texture)) {
+        return res.sendFile(texture);
+    }
+
+    const layer = STRUCTURE_LAYERS.find(l => l.id === name || l.types[`minecraft:${name}`]);
     if (!layer) return next();
 
     res.type('image/svg+xml');
-    res.setHeader('Cache-Control', 'public, max-age=86400');
     res.send(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32">` +
         `<circle cx="16" cy="16" r="13" fill="${layer.color}" stroke="#ffffff" stroke-width="2.5"/>` +
         layer.glyph +
         `</svg>`);
+});
+
+// As texturas do Minecraft são pixel art: sem isso o navegador borra tudo ao
+// redimensionar o ícone. O index.html é regenerado pelo plugin, então injetamos
+// o estilo na resposta em vez de editar o arquivo.
+app.get(['/mapa', '/mapa/', '/mapa/index.html'], (req, res, next) => {
+    const file = path.join(serverDir, 'plugins', 'squaremap', 'web', 'index.html');
+    fs.readFile(file, 'utf8', (err, html) => {
+        if (err) return next();
+        res.type('html').send(html.replace(
+            '</head>',
+            '<style>.leaflet-marker-icon{image-rendering:pixelated}</style></head>'
+        ));
+    });
 });
 
 // Mescla as camadas de estruturas na resposta do markers.json do squaremap

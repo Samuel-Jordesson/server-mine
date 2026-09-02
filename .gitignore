@@ -20,3 +20,7 @@ server/plugins/squaremap/data/
 
 # Cache das estruturas encontradas pelo /locate (varia por seed/instalação)
 server/.structures-cache.json
+
+# Ícones extraídos do Minecraft (texturas da Mojang: não redistribuímos no repo).
+# Gere com: bash extract-map-icons.sh
+public/map-icons/
