@@ -113,14 +113,6 @@
         font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
         font-size: 20px;
       }
-      .pulse-red {
-        animation: pulse-red 2s infinite;
-      }
-      @keyframes pulse-red {
-        0% { opacity: 1; }
-        50% { opacity: 0.5; }
-        100% { opacity: 1; }
-      }
       .custom-scrollbar::-webkit-scrollbar {
         width: 6px;
       }
@@ -184,13 +176,6 @@
 <h2 class="text-xl font-bold text-on-surface" id="view-title">Painel de Controle</h2>
 <span class="px-2 py-0.5 bg-surface-container-high border border-outline-variant text-on-surface-variant rounded text-[10px] font-bold" id="server-version">V1.21.11</span>
 </div>
-<div class="flex items-center gap-6">
-<div class="flex items-center gap-3 px-4 py-2 bg-surface-container-lowest border border-outline-variant rounded-full group cursor-pointer hover:border-primary-container transition-colors" onclick="copyIP()">
-<span class="w-2 h-2 rounded-full bg-primary"></span>
-<span class="text-xs font-semibold text-on-surface-variant" id="server-ip">192.168.18.33:25565</span>
-<span class="material-symbols-outlined text-on-surface-variant group-hover:text-primary transition-colors text-[16px]" id="copy-icon">content_copy</span>
-</div>
-</div>
 </header>
 <!-- Main Content -->
 <main class="ml-60 min-h-screen px-margin-page pt-24 pb-margin-page">
@@ -200,7 +185,7 @@
 <section id="view-dashboard" class="view active space-y-6">
     <div class="flex items-center justify-between">
         <div class="flex items-center gap-4">
-            <button onclick="restartServer()" class="flex items-center gap-2 px-6 py-2.5 bg-primary-container text-on-primary-fixed border border-primary-container rounded-xl font-bold text-sm transition-all hover:brightness-95 active:scale-95 shadow-sm">
+            <button onclick="restartServer()" class="flex items-center gap-2 px-6 py-2.5 bg-primary-container text-on-primary-fixed border border-primary-container rounded-xl font-bold text-sm transition-all hover:brightness-95 active:scale-95">
                 <span class="material-symbols-outlined">refresh</span>
                 Reiniciar
             </button>
@@ -209,15 +194,11 @@
                 Parar
             </button>
         </div>
-        <div class="flex items-center gap-3 px-5 py-2.5 bg-surface-container-low border border-outline-variant rounded-full shadow-sm">
-            <span class="text-xs font-bold text-on-surface-variant uppercase tracking-widest">Status:</span>
-            <span class="text-xs font-black text-on-surface uppercase" id="uptime">Verificando...</span>
-            <span class="w-2 h-2 rounded-full bg-error pulse-red"></span>
-        </div>
+        <span class="w-3 h-3 rounded-full bg-surface-variant" id="uptime" title="Verificando..."></span>
     </div>
 
     <div class="grid grid-cols-1 md:grid-cols-2 gap-gutter-grid">
-        <div class="bg-surface-container-lowest border border-surface-variant p-padding-card rounded-xl flex flex-col gap-4 shadow-sm hover:shadow-md transition-shadow">
+        <div class="bg-surface-container-lowest border border-surface-variant p-padding-card rounded-xl flex flex-col gap-4">
             <div class="flex items-center justify-between">
                 <h3 class="text-xs font-bold text-on-surface-variant uppercase tracking-widest">Conectar via Java Edition</h3>
                 <span class="material-symbols-outlined text-primary-fixed-dim">computer</span>
@@ -237,7 +218,7 @@
                 Copiar endereço:porta
             </button>
         </div>
-        <div class="bg-surface-container-lowest border border-surface-variant p-padding-card rounded-xl flex flex-col gap-4 shadow-sm hover:shadow-md transition-shadow">
+        <div class="bg-surface-container-lowest border border-surface-variant p-padding-card rounded-xl flex flex-col gap-4 transition-shadow">
             <div class="flex items-center justify-between">
                 <h3 class="text-xs font-bold text-on-surface-variant uppercase tracking-widest">Conectar via Bedrock Edition</h3>
                 <span class="material-symbols-outlined text-primary-fixed-dim">smartphone</span>
@@ -260,7 +241,7 @@
     </div>
 
     <div class="grid grid-cols-1 md:grid-cols-3 gap-gutter-grid">
-        <div class="bg-surface-container-lowest border border-surface-variant p-padding-card rounded-xl flex flex-col gap-4 shadow-sm hover:shadow-md transition-shadow">
+        <div class="bg-surface-container-lowest border border-surface-variant p-padding-card rounded-xl flex flex-col gap-4 transition-shadow">
             <div class="flex items-center justify-between">
                 <h3 class="text-xs font-bold text-on-surface-variant uppercase tracking-widest">Modo de Jogo</h3>
                 <span class="material-symbols-outlined text-primary-fixed-dim">sports_esports</span>
@@ -270,7 +251,7 @@
                     <span id="gamemode-label">Sobrevivência</span>
                     <span class="material-symbols-outlined text-on-surface-variant transition-transform" id="gamemode-chevron">expand_more</span>
                 </button>
-                <div id="gamemode-menu" class="hidden absolute left-0 right-0 z-30 mt-2 bg-surface-container-lowest border border-surface-variant rounded-lg shadow-lg overflow-hidden">
+                <div id="gamemode-menu" class="hidden absolute left-0 right-0 z-30 mt-2 bg-surface-container-lowest border border-surface-variant rounded-lg overflow-hidden">
                     <div class="gamemode-option px-4 py-2.5 text-sm font-semibold cursor-pointer hover:bg-primary-container/30 transition-colors" data-value="survival" onclick="selectGamemode('survival')">Sobrevivência</div>
                     <div class="gamemode-option px-4 py-2.5 text-sm font-semibold cursor-pointer hover:bg-primary-container/30 transition-colors" data-value="creative" onclick="selectGamemode('creative')">Criativo</div>
                     <div class="gamemode-option px-4 py-2.5 text-sm font-semibold cursor-pointer hover:bg-primary-container/30 transition-colors" data-value="adventure" onclick="selectGamemode('adventure')">Aventura</div>
@@ -284,7 +265,7 @@
                 </select>
             </div>
         </div>
-        <div class="bg-surface-container-lowest border border-surface-variant p-padding-card rounded-xl flex flex-col gap-4 shadow-sm hover:shadow-md transition-shadow">
+        <div class="bg-surface-container-lowest border border-surface-variant p-padding-card rounded-xl flex flex-col gap-4 transition-shadow">
             <div class="flex items-center justify-between">
                 <h3 class="text-xs font-bold text-on-surface-variant uppercase tracking-widest">Jogadores</h3>
                 <span class="material-symbols-outlined text-primary-fixed-dim">group</span>
@@ -294,7 +275,7 @@
             </div>
             <span class="self-start px-2 py-0.5 bg-primary-container/40 text-on-primary-container rounded-full text-[10px] font-bold uppercase tracking-widest">Ilimitado</span>
         </div>
-        <div class="bg-surface-container-lowest border border-surface-variant p-padding-card rounded-xl flex flex-col gap-4 shadow-sm hover:shadow-md transition-shadow">
+        <div class="bg-surface-container-lowest border border-surface-variant p-padding-card rounded-xl flex flex-col gap-4 transition-shadow">
             <div class="flex items-center justify-between">
                 <h3 class="text-xs font-bold text-on-surface-variant uppercase tracking-widest">Mundo</h3>
                 <span class="material-symbols-outlined text-primary-fixed-dim">public</span>
@@ -308,7 +289,7 @@
     <div class="space-y-4">
         <h3 class="text-xs font-bold text-on-surface-variant uppercase tracking-widest">Informações do PC</h3>
         <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-gutter-grid">
-            <div class="bg-surface-container-lowest border border-surface-variant p-padding-card rounded-xl flex flex-col gap-3 shadow-sm hover:shadow-md transition-shadow">
+            <div class="bg-surface-container-lowest border border-surface-variant p-padding-card rounded-xl flex flex-col gap-3 transition-shadow">
                 <div class="flex items-center justify-between">
                     <h3 class="text-xs font-bold text-on-surface-variant uppercase tracking-widest">Processador</h3>
                     <span class="material-symbols-outlined text-primary-fixed-dim">memory</span>
@@ -322,7 +303,7 @@
                 </div>
                 <p class="text-[11px] text-on-surface-variant truncate" id="cpu-model">Carregando...</p>
             </div>
-            <div class="bg-surface-container-lowest border border-surface-variant p-padding-card rounded-xl flex flex-col gap-3 shadow-sm hover:shadow-md transition-shadow">
+            <div class="bg-surface-container-lowest border border-surface-variant p-padding-card rounded-xl flex flex-col gap-3 transition-shadow">
                 <div class="flex items-center justify-between">
                     <h3 class="text-xs font-bold text-on-surface-variant uppercase tracking-widest">Memória RAM</h3>
                     <span class="material-symbols-outlined text-primary-fixed-dim">developer_board</span>
@@ -336,7 +317,7 @@
                 </div>
                 <p class="text-[11px] text-on-surface-variant" id="ram-detail">Carregando...</p>
             </div>
-            <div class="bg-surface-container-lowest border border-surface-variant p-padding-card rounded-xl flex flex-col gap-3 shadow-sm hover:shadow-md transition-shadow">
+            <div class="bg-surface-container-lowest border border-surface-variant p-padding-card rounded-xl flex flex-col gap-3 transition-shadow">
                 <div class="flex items-center justify-between">
                     <h3 class="text-xs font-bold text-on-surface-variant uppercase tracking-widest">Armazenamento</h3>
                     <span class="material-symbols-outlined text-primary-fixed-dim">hard_drive</span>
@@ -350,7 +331,7 @@
                 </div>
                 <p class="text-[11px] text-on-surface-variant" id="disk-detail">Carregando...</p>
             </div>
-            <div class="bg-surface-container-lowest border border-surface-variant p-padding-card rounded-xl flex flex-col gap-3 shadow-sm hover:shadow-md transition-shadow">
+            <div class="bg-surface-container-lowest border border-surface-variant p-padding-card rounded-xl flex flex-col gap-3 transition-shadow">
                 <div class="flex items-center justify-between">
                     <h3 class="text-xs font-bold text-on-surface-variant uppercase tracking-widest">Temperatura</h3>
                     <span class="material-symbols-outlined text-primary-fixed-dim">thermostat</span>
@@ -364,7 +345,7 @@
         </div>
     </div>
 
-    <div class="bg-surface-container-lowest border border-surface-variant p-padding-card rounded-xl shadow-sm">
+    <div class="bg-surface-container-lowest border border-surface-variant p-padding-card rounded-xl">
         <div class="flex items-center justify-between mb-6">
             <h3 class="text-xs font-bold text-on-surface-variant uppercase tracking-widest">Histórico de Uso (últimos minutos)</h3>
             <div class="flex items-center gap-4 text-[11px] font-bold uppercase tracking-widest">
@@ -380,7 +361,7 @@
 <section id="view-servidor" class="view space-y-6">
     <div class="flex items-center justify-between">
         <div class="flex items-center gap-4">
-            <button onclick="restartServer()" class="flex items-center gap-2 px-6 py-2.5 bg-primary-container text-on-primary-fixed border border-primary-container rounded-xl font-bold text-sm transition-all hover:brightness-95 active:scale-95 shadow-sm">
+            <button onclick="restartServer()" class="flex items-center gap-2 px-6 py-2.5 bg-primary-container text-on-primary-fixed border border-primary-container rounded-xl font-bold text-sm transition-all hover:brightness-95 active:scale-95">
                 <span class="material-symbols-outlined">refresh</span>
                 Reiniciar
             </button>
@@ -389,13 +370,10 @@
                 Parar
             </button>
         </div>
-        <div class="flex items-center gap-3 px-5 py-2.5 bg-surface-container-low border border-outline-variant rounded-full shadow-sm">
-            <span class="text-xs font-bold text-on-surface-variant uppercase tracking-widest">Status:</span>
-            <span class="text-xs font-black text-on-surface uppercase" id="uptime-2">Verificando...</span>
-        </div>
+        <span class="w-3 h-3 rounded-full bg-surface-variant" id="uptime-2" title="Verificando..."></span>
     </div>
 
-    <div class="w-full flex-1 min-h-[440px] bg-white border border-surface-variant rounded-2xl p-8 flex flex-col shadow-sm">
+    <div class="w-full flex-1 min-h-[440px] bg-white border border-surface-variant rounded-2xl p-8 flex flex-col">
         <div class="flex items-center justify-between border-b border-surface-container-low pb-6 mb-6">
             <div class="flex items-center gap-3">
                 <span class="w-3 h-3 rounded-full bg-primary"></span>
@@ -419,7 +397,7 @@
 <!-- Mundo -->
 <section id="view-mundo" class="view space-y-6">
     <div class="grid grid-cols-1 md:grid-cols-2 gap-gutter-grid">
-        <div class="bg-surface-container-lowest border border-surface-variant p-padding-card rounded-xl flex flex-col gap-4 shadow-sm">
+        <div class="bg-surface-container-lowest border border-surface-variant p-padding-card rounded-xl flex flex-col gap-4">
             <div class="flex items-center justify-between">
                 <h3 class="text-xs font-bold text-on-surface-variant uppercase tracking-widest">Nome do Mundo</h3>
                 <span class="material-symbols-outlined text-primary-fixed-dim">terrain</span>
@@ -427,7 +405,7 @@
             <p class="text-2xl font-black text-on-surface" id="world-name">world</p>
             <p class="text-[11px] text-on-surface-variant">Seed: <span id="world-seed">-</span></p>
         </div>
-        <div class="bg-surface-container-lowest border border-surface-variant p-padding-card rounded-xl flex flex-col gap-4 shadow-sm">
+        <div class="bg-surface-container-lowest border border-surface-variant p-padding-card rounded-xl flex flex-col gap-4">
             <div class="flex items-center justify-between">
                 <h3 class="text-xs font-bold text-on-surface-variant uppercase tracking-widest">Dificuldade</h3>
                 <span class="material-symbols-outlined text-primary-fixed-dim">skull</span>
@@ -437,7 +415,7 @@
                     <span id="difficulty-label">-</span>
                     <span class="material-symbols-outlined text-on-surface-variant" id="difficulty-chevron">expand_more</span>
                 </button>
-                <div id="difficulty-menu" class="hidden absolute left-0 right-0 z-30 mt-2 bg-surface-container-lowest border border-surface-variant rounded-lg shadow-lg overflow-hidden">
+                <div id="difficulty-menu" class="hidden absolute left-0 right-0 z-30 mt-2 bg-surface-container-lowest border border-surface-variant rounded-lg overflow-hidden">
                     <div class="gamemode-option px-4 py-2.5 text-sm font-semibold cursor-pointer hover:bg-primary-container/30 transition-colors" data-value="peaceful" onclick="selectDifficulty('peaceful')">Pacífico</div>
                     <div class="gamemode-option px-4 py-2.5 text-sm font-semibold cursor-pointer hover:bg-primary-container/30 transition-colors" data-value="easy" onclick="selectDifficulty('easy')">Fácil</div>
                     <div class="gamemode-option px-4 py-2.5 text-sm font-semibold cursor-pointer hover:bg-primary-container/30 transition-colors" data-value="normal" onclick="selectDifficulty('normal')">Normal</div>
@@ -447,7 +425,7 @@
         </div>
     </div>
 
-    <div class="bg-surface-container-lowest border border-surface-variant p-padding-card rounded-xl flex flex-col gap-4 shadow-sm">
+    <div class="bg-surface-container-lowest border border-surface-variant p-padding-card rounded-xl flex flex-col gap-4">
         <div>
             <p class="text-sm font-bold text-on-surface">Criar ou Enviar Mundo</p>
             <p class="text-sm text-on-surface-variant">Crie um mundo novo do zero ou envie um mundo já existente em um arquivo .zip.</p>
@@ -465,7 +443,7 @@
         </div>
     </div>
 
-    <div class="bg-surface-container-lowest border border-surface-variant p-padding-card rounded-xl flex items-center justify-between gap-6 shadow-sm">
+    <div class="bg-surface-container-lowest border border-surface-variant p-padding-card rounded-xl flex items-center justify-between gap-6">
         <div>
             <p class="text-sm font-bold text-on-surface">Resetar Mundo</p>
             <p class="text-sm text-on-surface-variant">Apaga a pasta do mundo atual. Um novo mundo será gerado na próxima inicialização.</p>
@@ -478,12 +456,12 @@
 
 <!-- Modal genérico -->
 <div id="modal-overlay" class="hidden fixed inset-0 bg-black/50 z-40 flex items-center justify-center p-4">
-    <div id="modal-content" class="bg-surface-container-lowest rounded-xl shadow-lg max-w-md w-full p-6"></div>
+    <div id="modal-content" class="bg-surface-container-lowest rounded-xl max-w-md w-full p-6"></div>
 </div>
 
 <!-- Mods -->
 <section id="view-mods" class="view space-y-6">
-    <div class="bg-surface-container-lowest border border-surface-variant p-padding-card rounded-xl flex flex-col gap-4 shadow-sm">
+    <div class="bg-surface-container-lowest border border-surface-variant p-padding-card rounded-xl flex flex-col gap-4">
         <div>
             <p class="text-sm font-bold text-on-surface">Enviar Mod/Plugin</p>
             <p class="text-sm text-on-surface-variant">Envie um arquivo .jar para instalar um novo mod/plugin no servidor.</p>
@@ -495,7 +473,7 @@
         </label>
     </div>
 
-    <div class="bg-surface-container-lowest border border-surface-variant rounded-xl shadow-sm overflow-hidden">
+    <div class="bg-surface-container-lowest border border-surface-variant rounded-xl overflow-hidden">
         <div class="flex items-center justify-between p-padding-card border-b border-surface-container-low">
             <h3 class="text-sm font-bold text-on-surface uppercase tracking-widest">Plugins instalados</h3>
             <span class="material-symbols-outlined cursor-pointer text-on-surface-variant hover:text-primary transition-colors" onclick="loadPlugins()">refresh</span>
@@ -508,7 +486,7 @@
 
 <!-- Jogadores -->
 <section id="view-jogadores" class="view space-y-6">
-    <div class="bg-surface-container-lowest border border-surface-variant p-padding-card rounded-xl flex flex-col gap-4 shadow-sm max-w-xs">
+    <div class="bg-surface-container-lowest border border-surface-variant p-padding-card rounded-xl flex flex-col gap-4 max-w-xs">
         <div class="flex items-center justify-between">
             <h3 class="text-xs font-bold text-on-surface-variant uppercase tracking-widest">Jogadores Online</h3>
             <span class="material-symbols-outlined text-primary-fixed-dim">group</span>
@@ -518,7 +496,7 @@
         </div>
         <span class="self-start px-2 py-0.5 bg-primary-container/40 text-on-primary-container rounded-full text-[10px] font-bold uppercase tracking-widest">Ilimitado</span>
     </div>
-    <div class="bg-surface-container-lowest border border-surface-variant rounded-xl shadow-sm overflow-hidden">
+    <div class="bg-surface-container-lowest border border-surface-variant rounded-xl overflow-hidden">
         <div class="flex items-center justify-between p-padding-card border-b border-surface-container-low">
             <h3 class="text-sm font-bold text-on-surface uppercase tracking-widest">Lista de Jogadores</h3>
             <span class="material-symbols-outlined cursor-pointer text-on-surface-variant hover:text-primary transition-colors" onclick="requestPlayerList()">refresh</span>
@@ -531,20 +509,20 @@
 
 <!-- Configurações (só aparece dentro do app desktop Electron) -->
 <section id="view-configuracoes" class="view space-y-6">
-    <div class="bg-surface-container-lowest border border-surface-variant p-padding-card rounded-xl shadow-sm max-w-xl flex flex-col gap-4">
+    <div class="bg-surface-container-lowest border border-surface-variant p-padding-card rounded-xl max-w-xl flex flex-col gap-4">
         <div class="flex items-center justify-between">
             <h3 class="text-xs font-bold text-on-surface-variant uppercase tracking-widest">Instância AWS</h3>
             <span class="px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-widest" id="aws-state-badge">desconhecido</span>
         </div>
         <p class="text-sm text-on-surface-variant">Ligue a instância só quando for jogar e desligue depois, pra economizar. O app espera a instância ficar pronta e já conecta o painel automaticamente.</p>
         <div class="flex gap-3">
-            <button onclick="awsStartInstance()" class="flex items-center gap-2 px-6 py-2.5 bg-primary-container text-on-primary-fixed border border-primary-container rounded-xl font-bold text-sm transition-all hover:brightness-95 active:scale-95 shadow-sm">
+            <button onclick="awsStartInstance()" class="flex items-center gap-2 px-6 py-2.5 bg-primary-container text-on-primary-fixed border border-primary-container rounded-xl font-bold text-sm transition-all hover:brightness-95 active:scale-95">
                 <span class="material-symbols-outlined text-[18px]">play_arrow</span> Ligar instância
             </button>
-            <button onclick="awsStopInstance()" class="flex items-center gap-2 px-6 py-2.5 bg-red-100 text-red-700 border border-red-200 rounded-xl font-bold text-sm transition-all hover:brightness-95 active:scale-95 shadow-sm">
+            <button onclick="awsStopInstance()" class="flex items-center gap-2 px-6 py-2.5 bg-red-100 text-red-700 border border-red-200 rounded-xl font-bold text-sm transition-all hover:brightness-95 active:scale-95">
                 <span class="material-symbols-outlined text-[18px]">stop</span> Desligar instância
             </button>
-            <button onclick="awsCheckStatus()" class="flex items-center gap-2 px-6 py-2.5 bg-surface-container text-on-surface border border-surface-variant rounded-xl font-bold text-sm transition-all hover:brightness-95 active:scale-95 shadow-sm">
+            <button onclick="awsCheckStatus()" class="flex items-center gap-2 px-6 py-2.5 bg-surface-container text-on-surface border border-surface-variant rounded-xl font-bold text-sm transition-all hover:brightness-95 active:scale-95">
                 <span class="material-symbols-outlined text-[18px]">refresh</span> Verificar status
             </button>
         </div>

@@ -99,6 +99,14 @@ async function sendCommand() {
     }
 }
 
+function setStatusDot(elementId, isOnline) {
+    const el = document.getElementById(elementId);
+    if (!el) return;
+    el.classList.remove('bg-surface-variant', 'bg-primary', 'bg-error');
+    el.classList.add(isOnline ? 'bg-primary' : 'bg-error');
+    el.title = isOnline ? 'Online' : 'Offline';
+}
+
 async function updateStatus() {
     try {
         const response = await fetch('/api/status');
@@ -106,8 +114,8 @@ async function updateStatus() {
 
         updateGamemodeUI(status.gamemode);
         document.getElementById('gamemode-select').dataset.current = status.gamemode;
-        document.getElementById('uptime').textContent = status.running ? 'Online' : 'Offline';
-        document.getElementById('uptime-2').textContent = status.running ? 'Online' : 'Offline';
+        setStatusDot('uptime', status.running);
+        setStatusDot('uptime-2', status.running);
 
         document.getElementById('java-connect-ip').textContent = status.localIp;
         document.getElementById('java-connect-port').textContent = status.javaPort;
@@ -401,17 +409,6 @@ function copyConnectInfo(type) {
     const ip = document.getElementById(`${type}-connect-ip`).textContent;
     const port = document.getElementById(`${type}-connect-port`).textContent;
     navigator.clipboard.writeText(`${ip}:${port}`);
-}
-
-function copyIP() {
-    const ip = document.getElementById('server-ip').textContent;
-    const icon = document.getElementById('copy-icon');
-    navigator.clipboard.writeText(ip).then(() => {
-        icon.textContent = 'check';
-        setTimeout(() => {
-            icon.textContent = 'content_copy';
-        }, 2000);
-    });
 }
 
 // Atualizar status a cada 5 segundos
