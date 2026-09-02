@@ -210,7 +210,7 @@
                 Parar
             </button>
         </div>
-        <span class="w-3 h-3 rounded-full bg-surface-variant" id="uptime" title="Verificando..."></span>
+        <span class="w-3 h-3 rounded-full bg-hairline" id="uptime" title="Verificando..."></span>
     </div>
 
     <div class="grid grid-cols-1 md:grid-cols-2 gap-gutter-grid">
@@ -328,7 +328,7 @@
                     <span class="text-2xl font-semibold text-ink leading-none" id="cpu-usage">-</span>
                     <span class="text-sm font-bold text-muted/50">%</span>
                 </div>
-                <div class="w-full h-1.5 bg-surface-container-high rounded-full overflow-hidden">
+                <div class="w-full h-1.5 bg-hairline rounded-full overflow-hidden">
                     <div id="cpu-bar" class="h-full bg-primary transition-all duration-700" style="width: 0%"></div>
                 </div>
                 <p class="text-[11px] text-muted truncate" id="cpu-model">Carregando...</p>
@@ -342,7 +342,7 @@
                     <span class="text-2xl font-semibold text-ink leading-none" id="ram-usage">-</span>
                     <span class="text-sm font-bold text-muted/50">%</span>
                 </div>
-                <div class="w-full h-1.5 bg-surface-container-high rounded-full overflow-hidden">
+                <div class="w-full h-1.5 bg-hairline rounded-full overflow-hidden">
                     <div id="ram-bar" class="h-full bg-primary transition-all duration-700" style="width: 0%"></div>
                 </div>
                 <p class="text-[11px] text-muted" id="ram-detail">Carregando...</p>
@@ -356,7 +356,7 @@
                     <span class="text-2xl font-semibold text-ink leading-none" id="disk-usage">-</span>
                     <span class="text-sm font-bold text-muted/50">%</span>
                 </div>
-                <div class="w-full h-1.5 bg-surface-container-high rounded-full overflow-hidden">
+                <div class="w-full h-1.5 bg-hairline rounded-full overflow-hidden">
                     <div id="disk-bar" class="h-full bg-primary transition-all duration-700" style="width: 0%"></div>
                 </div>
                 <p class="text-[11px] text-muted" id="disk-detail">Carregando...</p>
@@ -400,7 +400,7 @@
                 Parar
             </button>
         </div>
-        <span class="w-3 h-3 rounded-full bg-surface-variant" id="uptime-2" title="Verificando..."></span>
+        <span class="w-3 h-3 rounded-full bg-hairline" id="uptime-2" title="Verificando..."></span>
     </div>
 
     <div class="w-full flex-1 min-h-[440px] bg-panel border border-hairline rounded-xl p-6 flex flex-col">
@@ -486,7 +486,7 @@
 
 <!-- Modal genérico -->
 <div id="modal-overlay" class="hidden fixed inset-0 bg-black/50 z-40 flex items-center justify-center p-4">
-    <div id="modal-content" class="bg-surface-container-lowest rounded-xl max-w-md w-full p-6"></div>
+    <div id="modal-content" class="bg-panel rounded-xl max-w-md w-full p-6"></div>
 </div>
 
 <!-- Mods -->
@@ -574,7 +574,7 @@
             <button onclick="awsStopInstance()" class="flex items-center gap-2 px-6 py-2.5 bg-red-100 text-red-700 border border-red-200 rounded-xl font-bold text-sm transition-all hover:brightness-95 active:scale-95">
                 <span class="material-symbols-outlined text-[18px]">stop</span> Desligar instância
             </button>
-            <button onclick="awsCheckStatus()" class="flex items-center gap-2 px-6 py-2.5 bg-surface-container text-ink border border-surface-variant rounded-xl font-bold text-sm transition-all hover:brightness-95 active:scale-95">
+            <button onclick="awsCheckStatus()" class="flex items-center gap-2 px-4 py-2 bg-panel border border-hairline text-ink rounded-lg font-medium text-sm transition-colors hover:bg-soft">
                 <span class="material-symbols-outlined text-[18px]">refresh</span> Verificar status
             </button>
         </div>
