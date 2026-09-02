@@ -18,6 +18,11 @@ function currentConfig() {
     return loadConfig(app);
 }
 
+// Já tem tudo preenchido pra ligar a instância sem precisar passar pela tela de Configurações?
+function hasAwsConfig(cfg) {
+    return !!(cfg.awsAccessKeyId && cfg.awsSecretAccessKey && cfg.awsInstanceId && cfg.awsRegion);
+}
+
 // Sobe o web-server.js (painel) dentro do próprio processo do Electron, só no modo "local"
 function startLocalWebServer(port) {
     if (webServerProcess) return;
@@ -107,6 +112,14 @@ function openSettingsWindow() {
     settingsWindow.on('closed', () => { settingsWindow = null; });
 }
 
+// Tela simples com só "Ligar instância" / "Verificar status", pra quando já está tudo configurado
+function showStartScreen() {
+    if (!mainWindow) createWindow();
+    mainWindow.loadFile(path.join(__dirname, 'start-screen.html'));
+    mainWindow.show();
+    mainWindow.focus();
+}
+
 // Conecta a janela principal ao painel, de acordo com o modo configurado
 async function connectToPanel() {
     const cfg = currentConfig();
@@ -169,6 +182,10 @@ ipcMain.handle('panel:connect', async () => {
     }
 });
 
+ipcMain.handle('settings:open', () => {
+    openSettingsWindow();
+});
+
 app.whenReady().then(async () => {
     createWindow();
 
@@ -186,12 +203,24 @@ app.whenReady().then(async () => {
     ];
     Menu.setApplicationMenu(Menu.buildFromTemplate(template));
 
-    try {
-        const result = await connectToPanel();
-        if (!result.success) throw new Error(result.message);
-    } catch (err) {
-        dialog.showErrorBox('Não foi possível conectar ao painel', err.message + '\n\nAbra Configurações (Ctrl+,) para ajustar.');
-        openSettingsWindow();
+    const cfg = currentConfig();
+
+    if (cfg.mode === 'aws') {
+        // Modo AWS: se já tem tudo configurado, mostra só a tela de ligar/verificar,
+        // sem pedir as credenciais de novo. Só abre Configurações se faltar algo.
+        if (hasAwsConfig(cfg)) {
+            showStartScreen();
+        } else {
+            openSettingsWindow();
+        }
+    } else {
+        try {
+            const result = await connectToPanel();
+            if (!result.success) throw new Error(result.message);
+        } catch (err) {
+            dialog.showErrorBox('Não foi possível conectar ao painel', err.message + '\n\nAbra Configurações (Ctrl+,) para ajustar.');
+            openSettingsWindow();
+        }
     }
 
     app.on('activate', () => {

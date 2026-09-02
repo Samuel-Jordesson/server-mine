@@ -7,5 +7,6 @@ contextBridge.exposeInMainWorld('desktopAPI', {
     awsStart: () => ipcRenderer.invoke('aws:start'),
     awsStop: () => ipcRenderer.invoke('aws:stop'),
     connect: () => ipcRenderer.invoke('panel:connect'),
+    openSettings: () => ipcRenderer.invoke('settings:open'),
     onLog: (cb) => ipcRenderer.on('settings:log', (_e, msg) => cb(msg))
 });

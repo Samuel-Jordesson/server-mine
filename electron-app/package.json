@@ -15,6 +15,7 @@
       "main.js",
       "preload.js",
       "settings.html",
+      "start-screen.html",
       "config-store.js",
       "aws-ec2.js",
       "icon.png"

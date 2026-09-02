@@ -1,0 +1,102 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Painel Minecraft</title>
+<style>
+  html, body { height: 100%; margin: 0; }
+  body {
+    font-family: system-ui, sans-serif; background: #0f172a; color: #e2e8f0;
+    display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 22px;
+  }
+  .badge { display: flex; align-items: center; gap: 10px; font-size: 13px; color: #94a3b8; }
+  .dot { width: 10px; height: 10px; border-radius: 50%; background: #64748b; }
+  .dot.running { background: #22c55e; }
+  .dot.stopped { background: #ef4444; }
+  .dot.pending { background: #f59e0b; }
+  h1 { font-size: 18px; font-weight: 600; margin: 0; color: #f1f5f9; }
+  .actions { display: flex; gap: 12px; }
+  button {
+    display: flex; align-items: center; gap: 8px;
+    background: #22c55e; color: #052e16; border: none; border-radius: 8px;
+    padding: 12px 22px; font-weight: 700; cursor: pointer; font-size: 14px;
+  }
+  button.secondary { background: #1e293b; color: #e2e8f0; border: 1px solid #334155; }
+  button:disabled { opacity: 0.5; cursor: default; }
+  .status-msg { font-size: 13px; color: #94a3b8; min-height: 18px; }
+  .link { font-size: 12px; color: #64748b; cursor: pointer; text-decoration: underline; margin-top: 8px; }
+</style>
+</head>
+<body>
+  <img src="icon.png" style="width:56px;height:56px;border-radius:12px" alt="">
+  <h1>Servidor Minecraft</h1>
+  <div class="badge"><span class="dot" id="dot"></span><span id="stateLabel">verificando...</span></div>
+
+  <div class="actions">
+    <button id="btnStart">▶ Ligar instância</button>
+    <button id="btnCheck" class="secondary">Verificar status</button>
+  </div>
+
+  <div class="status-msg" id="msg"></div>
+  <div class="link" id="btnSettings">Editar configurações</div>
+
+<script>
+  const dot = document.getElementById('dot');
+  const stateLabel = document.getElementById('stateLabel');
+  const msg = document.getElementById('msg');
+  const btnStart = document.getElementById('btnStart');
+  const btnCheck = document.getElementById('btnCheck');
+
+  function setState(state) {
+    dot.className = 'dot';
+    if (state === 'running') { dot.classList.add('running'); stateLabel.textContent = 'ligada'; }
+    else if (state === 'stopped' || state === 'terminated') { dot.classList.add('stopped'); stateLabel.textContent = 'desligada'; }
+    else { dot.classList.add('pending'); stateLabel.textContent = state || 'desconhecido'; }
+  }
+
+  async function checkStatus(autoConnect = false) {
+    msg.textContent = 'Verificando status...';
+    try {
+      const info = await window.desktopAPI.awsStatus();
+      setState(info.state);
+      msg.textContent = info.publicIp ? `IP: ${info.publicIp}` : '';
+      if (autoConnect && info.state === 'running' && info.publicIp) {
+        msg.textContent = 'Já está ligada! Abrindo painel...';
+        await window.desktopAPI.connect();
+      }
+      return info;
+    } catch (err) {
+      msg.textContent = 'Erro: ' + err.message;
+    }
+  }
+
+  async function startInstance() {
+    btnStart.disabled = true;
+    btnCheck.disabled = true;
+    setState('pending');
+    msg.textContent = 'Ligando instância... isso pode levar 1-2 minutos.';
+    try {
+      await window.desktopAPI.awsStart();
+      msg.textContent = 'Instância ligada! Abrindo painel...';
+      setState('running');
+      const result = await window.desktopAPI.connect();
+      if (!result.success) {
+        msg.textContent = 'Erro ao conectar: ' + result.message;
+        btnStart.disabled = false;
+        btnCheck.disabled = false;
+      }
+    } catch (err) {
+      msg.textContent = 'Erro: ' + err.message;
+      btnStart.disabled = false;
+      btnCheck.disabled = false;
+    }
+  }
+
+  btnStart.addEventListener('click', startInstance);
+  btnCheck.addEventListener('click', checkStatus);
+  document.getElementById('btnSettings').addEventListener('click', () => window.desktopAPI.openSettings());
+
+  checkStatus(true);
+</script>
+</body>
+</html>
