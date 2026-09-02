@@ -102,7 +102,7 @@ async function sendCommand() {
 function setStatusDot(elementId, isOnline) {
     const el = document.getElementById(elementId);
     if (!el) return;
-    el.classList.remove('bg-surface-variant', 'bg-primary', 'bg-error');
+    el.classList.remove('bg-hairline', 'bg-primary', 'bg-error');
     el.classList.add(isOnline ? 'bg-primary' : 'bg-error');
     el.title = isOnline ? 'Online' : 'Offline';
 }
@@ -206,7 +206,7 @@ function drawUsageChart() {
     ctx.clearRect(0, 0, width, height);
 
     // Linhas de grade horizontais
-    ctx.strokeStyle = '#dce2f3';
+    ctx.strokeStyle = '#ebecef';
     ctx.lineWidth = 1;
     for (let i = 0; i <= 4; i++) {
         const y = (height / 4) * i;
@@ -585,14 +585,14 @@ async function scanStructures() {
 // Aba Mods
 async function loadPlugins() {
     const container = document.getElementById('plugins-list');
-    container.innerHTML = '<div class="p-padding-card text-on-surface-variant text-sm">Carregando...</div>';
+    container.innerHTML = '<div class="p-padding-card text-muted text-sm">Carregando...</div>';
 
     try {
         const response = await fetch('/api/plugins');
         const plugins = await response.json();
 
         if (plugins.length === 0) {
-            container.innerHTML = '<div class="p-padding-card text-on-surface-variant text-sm">Nenhum plugin instalado</div>';
+            container.innerHTML = '<div class="p-padding-card text-muted text-sm">Nenhum plugin instalado</div>';
             return;
         }
 
@@ -600,11 +600,11 @@ async function loadPlugins() {
             <div class="flex items-center justify-between p-4 px-6">
                 <div class="flex items-center gap-3">
                     <span class="material-symbols-outlined text-primary-fixed-dim">extension</span>
-                    <span class="text-on-surface text-sm font-semibold">${escapeHtml(plugin.name)}</span>
+                    <span class="text-ink text-sm font-semibold">${escapeHtml(plugin.name)}</span>
                 </div>
                 <div class="flex items-center gap-4">
-                    <span class="text-on-surface-variant text-xs">${plugin.sizeMB} MB</span>
-                    <span class="material-symbols-outlined cursor-pointer text-on-surface-variant hover:text-error transition-colors" onclick="deletePlugin('${escapeHtml(plugin.name)}')">delete</span>
+                    <span class="text-muted text-xs">${plugin.sizeMB} MB</span>
+                    <span class="material-symbols-outlined cursor-pointer text-muted hover:text-error transition-colors" onclick="deletePlugin('${escapeHtml(plugin.name)}')">delete</span>
                 </div>
             </div>
         `).join('');
@@ -775,12 +775,12 @@ function showAlertModal(message, { title, danger = false } = {}) {
         <div class="flex items-start gap-3 mb-5">
             <span class="material-symbols-outlined ${danger ? 'text-error' : 'text-primary-fixed-dim'} text-2xl">${danger ? 'error' : 'check_circle'}</span>
             <div>
-                <h3 class="text-base font-bold text-on-surface">${escapeHtml(title || (danger ? 'Erro' : 'Aviso'))}</h3>
-                <p class="text-sm text-on-surface-variant mt-1">${escapeHtml(message)}</p>
+                <h3 class="text-base font-bold text-ink">${escapeHtml(title || (danger ? 'Erro' : 'Aviso'))}</h3>
+                <p class="text-sm text-muted mt-1">${escapeHtml(message)}</p>
             </div>
         </div>
         <div class="flex justify-end">
-            <button id="modal-alert-ok" class="px-4 py-2 bg-primary-container text-on-primary-fixed rounded-lg font-bold text-xs uppercase">OK</button>
+            <button id="modal-alert-ok" class="px-4 py-2 bg-primary-container text-on-primary-fixed rounded-lg font-medium text-[13px]">OK</button>
         </div>
     `);
     document.getElementById('modal-alert-ok').onclick = closeModal;
@@ -791,13 +791,13 @@ function showConfirmModal(message, onConfirm, { title = 'Confirmar ação', dang
         <div class="flex items-start gap-3 mb-5">
             <span class="material-symbols-outlined ${danger ? 'text-error' : 'text-primary-fixed-dim'} text-2xl">${danger ? 'warning' : 'help'}</span>
             <div>
-                <h3 class="text-base font-bold text-on-surface">${escapeHtml(title)}</h3>
-                <p class="text-sm text-on-surface-variant mt-1">${escapeHtml(message)}</p>
+                <h3 class="text-base font-bold text-ink">${escapeHtml(title)}</h3>
+                <p class="text-sm text-muted mt-1">${escapeHtml(message)}</p>
             </div>
         </div>
         <div class="flex justify-end gap-3">
-            <button id="modal-cancel-btn" class="px-4 py-2 bg-surface-container-highest border border-outline-variant text-on-surface rounded-lg font-bold text-xs uppercase">Cancelar</button>
-            <button id="modal-confirm-btn" class="px-4 py-2 ${danger ? 'bg-error text-white' : 'bg-primary-container text-on-primary-fixed'} rounded-lg font-bold text-xs uppercase">${escapeHtml(confirmLabel)}</button>
+            <button id="modal-cancel-btn" class="px-4 py-2 bg-panel border border-hairline text-ink rounded-lg font-medium text-[13px]">Cancelar</button>
+            <button id="modal-confirm-btn" class="px-4 py-2 ${danger ? 'bg-error text-white' : 'bg-primary-container text-on-primary-fixed'} rounded-lg font-medium text-[13px]">${escapeHtml(confirmLabel)}</button>
         </div>
     `);
     document.getElementById('modal-cancel-btn').onclick = closeModal;
@@ -832,15 +832,15 @@ function showOverwriteWarning(onConfirm) {
 
 function showCreateWorldForm() {
     openModal(`
-        <h3 class="text-base font-bold text-on-surface mb-4">Criar Novo Mundo</h3>
+        <h3 class="text-base font-bold text-ink mb-4">Criar Novo Mundo</h3>
         <div class="space-y-4">
             <div>
-                <label class="text-xs font-bold text-on-surface-variant uppercase tracking-widest">Nome do Mundo</label>
-                <input id="new-world-name" type="text" placeholder="world" class="w-full mt-1 bg-surface-container-low border border-outline-variant rounded-lg px-4 py-2.5 text-sm font-semibold text-on-surface outline-none focus:ring-2 focus:ring-primary-fixed-dim/40"/>
+                <label class="text-[13px] text-muted">Nome do Mundo</label>
+                <input id="new-world-name" type="text" placeholder="world" class="w-full mt-1 bg-soft border border-hairline rounded-lg px-4 py-2.5 text-sm font-semibold text-ink outline-none focus:ring-2 focus:ring-primary-fixed-dim/40"/>
             </div>
             <div>
-                <label class="text-xs font-bold text-on-surface-variant uppercase tracking-widest">Dificuldade</label>
-                <select id="new-world-difficulty" class="w-full mt-1 bg-surface-container-low border border-outline-variant rounded-lg px-4 py-2.5 text-sm font-semibold text-on-surface outline-none focus:ring-2 focus:ring-primary-fixed-dim/40">
+                <label class="text-[13px] text-muted">Dificuldade</label>
+                <select id="new-world-difficulty" class="w-full mt-1 bg-soft border border-hairline rounded-lg px-4 py-2.5 text-sm font-semibold text-ink outline-none focus:ring-2 focus:ring-primary-fixed-dim/40">
                     <option value="peaceful">Pacífico</option>
                     <option value="easy" selected>Fácil</option>
                     <option value="normal">Normal</option>
@@ -848,13 +848,13 @@ function showCreateWorldForm() {
                 </select>
             </div>
             <div>
-                <label class="text-xs font-bold text-on-surface-variant uppercase tracking-widest">Seed (opcional)</label>
-                <input id="new-world-seed" type="text" placeholder="Deixe em branco para aleatória" class="w-full mt-1 bg-surface-container-low border border-outline-variant rounded-lg px-4 py-2.5 text-sm font-semibold text-on-surface outline-none focus:ring-2 focus:ring-primary-fixed-dim/40"/>
+                <label class="text-[13px] text-muted">Seed (opcional)</label>
+                <input id="new-world-seed" type="text" placeholder="Deixe em branco para aleatória" class="w-full mt-1 bg-soft border border-hairline rounded-lg px-4 py-2.5 text-sm font-semibold text-ink outline-none focus:ring-2 focus:ring-primary-fixed-dim/40"/>
             </div>
         </div>
         <div class="flex justify-end gap-3 mt-6">
-            <button onclick="closeModal()" class="px-4 py-2 bg-surface-container-highest border border-outline-variant text-on-surface rounded-lg font-bold text-xs uppercase">Cancelar</button>
-            <button onclick="submitCreateWorld()" class="px-4 py-2 bg-primary-container text-on-primary-fixed rounded-lg font-bold text-xs uppercase">Criar Mundo</button>
+            <button onclick="closeModal()" class="px-4 py-2 bg-panel border border-hairline text-ink rounded-lg font-medium text-[13px]">Cancelar</button>
+            <button onclick="submitCreateWorld()" class="px-4 py-2 bg-primary-container text-on-primary-fixed rounded-lg font-medium text-[13px]">Criar Mundo</button>
         </div>
     `);
 }
@@ -948,7 +948,7 @@ async function uploadWorldZip(file) {
 function renderPlayersList() {
     const container = document.getElementById('players-list');
     if (playersOnline.size === 0) {
-        container.innerHTML = '<div class="p-padding-card text-on-surface-variant text-sm">Nenhum jogador online</div>';
+        container.innerHTML = '<div class="p-padding-card text-muted text-sm">Nenhum jogador online</div>';
         return;
     }
 
@@ -956,9 +956,9 @@ function renderPlayersList() {
         <div class="flex items-center justify-between gap-3 p-4 px-6">
             <div class="flex items-center gap-3">
                 <span class="material-symbols-outlined text-primary-fixed-dim">person</span>
-                <span class="text-on-surface text-sm font-semibold">${escapeHtml(name)}</span>
+                <span class="text-ink text-sm font-semibold">${escapeHtml(name)}</span>
             </div>
-            <button onclick="openPlayerManageModal('${escapeHtml(name)}')" class="flex items-center gap-1.5 px-3 py-1.5 bg-surface-container-highest border border-outline-variant text-on-surface rounded-lg font-bold text-xs uppercase transition-all hover:bg-surface-variant">
+            <button onclick="openPlayerManageModal('${escapeHtml(name)}')" class="flex items-center gap-1.5 px-3 py-1.5 bg-panel border border-hairline text-ink rounded-lg font-medium text-[13px] transition-all hover:bg-hairline">
                 <span class="material-symbols-outlined text-sm">tune</span>
                 Gerenciar
             </button>
@@ -994,31 +994,31 @@ async function playerAction(name, type, params, successMessage) {
 
 function openPlayerManageModal(name) {
     openModal(`
-        <h3 class="text-base font-bold text-on-surface mb-4">Gerenciar ${escapeHtml(name)}</h3>
+        <h3 class="text-base font-bold text-ink mb-4">Gerenciar ${escapeHtml(name)}</h3>
 
         <div class="space-y-5">
             <div>
-                <p class="text-xs font-bold text-on-surface-variant uppercase tracking-widest mb-2">Modo de Jogo</p>
+                <p class="text-[13px] text-muted mb-2">Modo de Jogo</p>
                 <div class="grid grid-cols-2 gap-2">
-                    <button onclick="playerAction('${name}','gamemode',{mode:'survival'},'${name} agora está em Sobrevivência')" class="px-3 py-2 bg-surface-container-low border border-outline-variant rounded-lg text-xs font-bold uppercase hover:bg-surface-container">Sobrevivência</button>
-                    <button onclick="playerAction('${name}','gamemode',{mode:'creative'},'${name} agora está em Criativo')" class="px-3 py-2 bg-surface-container-low border border-outline-variant rounded-lg text-xs font-bold uppercase hover:bg-surface-container">Criativo</button>
-                    <button onclick="playerAction('${name}','gamemode',{mode:'adventure'},'${name} agora está em Aventura')" class="px-3 py-2 bg-surface-container-low border border-outline-variant rounded-lg text-xs font-bold uppercase hover:bg-surface-container">Aventura</button>
-                    <button onclick="playerAction('${name}','gamemode',{mode:'spectator'},'${name} agora está em Espectador')" class="px-3 py-2 bg-surface-container-low border border-outline-variant rounded-lg text-xs font-bold uppercase hover:bg-surface-container">Espectador</button>
+                    <button onclick="playerAction('${name}','gamemode',{mode:'survival'},'${name} agora está em Sobrevivência')" class="px-3 py-2 bg-soft border border-hairline rounded-lg text-xs font-bold uppercase hover:bg-soft">Sobrevivência</button>
+                    <button onclick="playerAction('${name}','gamemode',{mode:'creative'},'${name} agora está em Criativo')" class="px-3 py-2 bg-soft border border-hairline rounded-lg text-xs font-bold uppercase hover:bg-soft">Criativo</button>
+                    <button onclick="playerAction('${name}','gamemode',{mode:'adventure'},'${name} agora está em Aventura')" class="px-3 py-2 bg-soft border border-hairline rounded-lg text-xs font-bold uppercase hover:bg-soft">Aventura</button>
+                    <button onclick="playerAction('${name}','gamemode',{mode:'spectator'},'${name} agora está em Espectador')" class="px-3 py-2 bg-soft border border-hairline rounded-lg text-xs font-bold uppercase hover:bg-soft">Espectador</button>
                 </div>
             </div>
 
             <div>
-                <p class="text-xs font-bold text-on-surface-variant uppercase tracking-widest mb-2">Restrições</p>
-                <p class="text-[11px] text-on-surface-variant mb-3">"Impedir quebrar/construir" usa o modo Aventura (limitação do próprio Minecraft, não existe trava separada).</p>
+                <p class="text-[13px] text-muted mb-2">Restrições</p>
+                <p class="text-[11px] text-muted mb-3">"Impedir quebrar/construir" usa o modo Aventura (limitação do próprio Minecraft, não existe trava separada).</p>
                 <div class="flex items-center justify-between py-1.5">
-                    <span class="text-sm text-on-surface font-medium">Impedir quebrar/construir</span>
+                    <span class="text-sm text-ink font-medium">Impedir quebrar/construir</span>
                     <label class="switch">
                         <input type="checkbox" onchange="playerAction('${name}','restrict',{building:this.checked}, this.checked ? '${name} não pode mais quebrar/construir' : '${name} pode quebrar/construir novamente')">
                         <span class="slider"></span>
                     </label>
                 </div>
                 <div class="flex items-center justify-between py-1.5">
-                    <span class="text-sm text-on-surface font-medium">Impedir PvP</span>
+                    <span class="text-sm text-ink font-medium">Impedir PvP</span>
                     <label class="switch">
                         <input type="checkbox" onchange="playerAction('${name}','pvp',{enabled:!this.checked}, this.checked ? '${name} não pode mais atacar outros jogadores' : '${name} pode atacar outros jogadores novamente')">
                         <span class="slider"></span>
@@ -1027,16 +1027,16 @@ function openPlayerManageModal(name) {
             </div>
 
             <div>
-                <p class="text-xs font-bold text-on-surface-variant uppercase tracking-widest mb-2">Dar Item</p>
+                <p class="text-[13px] text-muted mb-2">Dar Item</p>
                 <div class="flex gap-2">
-                    <input id="give-item-id" type="text" placeholder="ex: diamond_sword" class="flex-1 bg-surface-container-low border border-outline-variant rounded-lg px-3 py-2 text-sm font-semibold text-on-surface outline-none focus:ring-2 focus:ring-primary-fixed-dim/40"/>
-                    <input id="give-item-amount" type="number" value="1" min="1" max="6400" class="w-20 bg-surface-container-low border border-outline-variant rounded-lg px-3 py-2 text-sm font-semibold text-on-surface outline-none focus:ring-2 focus:ring-primary-fixed-dim/40"/>
-                    <button onclick="submitGiveItem('${name}')" class="px-4 py-2 bg-primary-container text-on-primary-fixed rounded-lg font-bold text-xs uppercase">Dar</button>
+                    <input id="give-item-id" type="text" placeholder="ex: diamond_sword" class="flex-1 bg-soft border border-hairline rounded-lg px-3 py-2 text-sm font-semibold text-ink outline-none focus:ring-2 focus:ring-primary-fixed-dim/40"/>
+                    <input id="give-item-amount" type="number" value="1" min="1" max="6400" class="w-20 bg-soft border border-hairline rounded-lg px-3 py-2 text-sm font-semibold text-ink outline-none focus:ring-2 focus:ring-primary-fixed-dim/40"/>
+                    <button onclick="submitGiveItem('${name}')" class="px-4 py-2 bg-primary-container text-on-primary-fixed rounded-lg font-medium text-[13px]">Dar</button>
                 </div>
             </div>
 
             <div>
-                <p class="text-xs font-bold text-on-surface-variant uppercase tracking-widest mb-2">Ações</p>
+                <p class="text-[13px] text-muted mb-2">Ações</p>
                 <div class="grid grid-cols-2 gap-2">
                     <button onclick="confirmKickPlayer('${name}')" class="px-3 py-2 bg-error/10 text-error border border-error/20 rounded-lg text-xs font-bold uppercase hover:bg-error/20">Kickar</button>
                     <button onclick="confirmBanPlayer('${name}')" class="px-3 py-2 bg-error text-white rounded-lg text-xs font-bold uppercase hover:brightness-90">Banir</button>
@@ -1045,7 +1045,7 @@ function openPlayerManageModal(name) {
         </div>
 
         <div class="flex justify-end mt-6">
-            <button onclick="closeModal()" class="px-4 py-2 bg-surface-container-highest border border-outline-variant text-on-surface rounded-lg font-bold text-xs uppercase">Fechar</button>
+            <button onclick="closeModal()" class="px-4 py-2 bg-panel border border-hairline text-ink rounded-lg font-medium text-[13px]">Fechar</button>
         </div>
     `);
 }
@@ -1128,7 +1128,7 @@ function detectPlayerActivity(logEntry) {
 
 function updatePlayerCountDisplay() {
     const count = playersOnline.size;
-    const html = `<span class="text-4xl font-black text-on-surface leading-none">${count}</span>`;
+    const html = `<span class="text-4xl font-semibold text-ink leading-none">${count}</span>`;
     document.getElementById('player-count').innerHTML = html;
     document.getElementById('player-count-2').innerHTML = html;
 
@@ -1146,7 +1146,7 @@ async function requestPlayerList() {
 function setAwsBadge(state) {
     const badge = document.getElementById('aws-state-badge');
     if (!badge) return;
-    badge.className = 'px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-widest';
+    badge.className = 'px-2 py-0.5 rounded-full text-[10px] font-bold ';
     if (state === 'running') {
         badge.classList.add('bg-green-100', 'text-green-700');
         badge.textContent = 'ligada';
