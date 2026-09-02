@@ -13,3 +13,7 @@ md/
 # Uploads temporários do painel web
 server/.tmp-uploads/
 server/.tmp-extract/
+
+# Saída do mapa web (squaremap): milhares de tiles gerados por instalação
+server/plugins/squaremap/web/
+server/plugins/squaremap/data/
